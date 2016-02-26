@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">UB书店</string>
+    <string name="shop">我的书店</string>
+    <string name="order">我的订单</string>
+    <string name="mine">个人中心</string>
+
+    <string name="main_page">首页</string>
+    <string name="setting">设置</string>
+    <string name="about">关于</string>
+</resources>
