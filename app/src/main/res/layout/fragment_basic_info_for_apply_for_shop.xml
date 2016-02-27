@@ -1,0 +1,58 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.weiqianghu.usedbook_shop.view.fragment.BasicInfoForApplyForShopFragment">
+
+    <com.weiqianghu.usedbook_shop.view.customview.ClearEditText
+        android:id="@+id/et_shop_name"
+        style="@style/common_edit_text_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/shop_name" />
+
+    <com.weiqianghu.usedbook_shop.view.customview.ClearEditText
+        android:id="@+id/et_contacts"
+        style="@style/common_edit_text_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/contacts" />
+
+    <com.weiqianghu.usedbook_shop.view.customview.ClearEditText
+        android:id="@+id/et_contact_number"
+        style="@style/phone_edit_text_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/contact_number" />
+
+    <RelativeLayout
+        android:id="@+id/lt_address"
+        style="@style/like_et_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tv_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/address" />
+
+        <ImageView
+            android:src="@mipmap/right"
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/btn_next"
+        android:text="@string/next"
+        style="@style/common_text_style"
+        android:layout_margin="10dp"
+        android:background="@drawable/btn_background"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+
+</LinearLayout>

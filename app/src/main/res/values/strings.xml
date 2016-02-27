@@ -7,4 +7,36 @@
     <string name="main_page">首页</string>
     <string name="setting">设置</string>
     <string name="about">关于</string>
+
+    <string name="to_login">去登陆</string>
+    <string name="login">登陆</string>
+    <string name="register">注册</string>
+    <string name="logout">退出登录</string>
+    <string name="forget_password">忘记密码</string>
+    <string name="go_to_register">注册新用户</string>
+    <string name="code">短信验证码</string>
+    <string name="new_password">设置新密码，最少6位,最长16位</string>
+    <string name="get_code">获取验证码</string>
+    <string name="old_pwd">原密码</string>
+    <string name="submit">确定</string>
+    <string name="password">设置密码，最少6位,最长16位</string>
+    <string name="ensure_password">确认密码</string>
+    <string name="mobile_no">输入手机号码，用于找回账号</string>
+
+    <string name="username_hint">手机号</string>
+    <string name="password_hint">密码</string>
+
+    <string name="register_login">注册和登陆</string>
+
+    <string name="apply_for_shop">申请开店</string>
+
+    <string name="suggest_apply_for_shop">您还没有开店，快去申请开店</string>
+
+   <string name="contacts">联系人</string>
+    <string name="shop_name">店名</string>
+    <string name="contact_number">联系电话</string>
+
+    <string name="address">地址</string>
+    <string name="next">下一步</string>
+    <string name="detail_address_hint">请输入详细地址</string>
 </resources>
