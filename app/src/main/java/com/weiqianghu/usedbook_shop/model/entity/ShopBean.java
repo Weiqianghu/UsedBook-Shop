@@ -1,11 +1,13 @@
 package com.weiqianghu.usedbook_shop.model.entity;
 
+import java.io.Serializable;
+
 import cn.bmob.v3.BmobObject;
 
 /**
  * Created by weiqianghu on 2016/2/27.
  */
-public class ShopBean extends BmobObject {
+public class ShopBean extends BmobObject implements Serializable{
     private String contacts;
     private String idNumber;
     private String idFrontImg;

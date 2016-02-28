@@ -19,6 +19,11 @@ public class Constant {
     public static final String FINISH="finish";
 
     public static final int REQUEST_IMAGE=3;
+    public static final int REQUEST_ID_FRONT=1;
+    public static final int REQUEST_ID_BACK=2;
+
+    public static final String REQUEST_ID_FRONT_STR="request_id_front";
+    public static final String REQUEST_ID_BACK_STR="request_id_back";
 
     public static final int SUCCESS=1;
     public static final int FAILURE=0;
@@ -32,9 +37,13 @@ public class Constant {
     public static final String PROVINCE="province";
     public static final String CITY="city";
     public static final String COUNTY="county";
+    public static final String DETAIL_ADDRESS="detail_address";
 
     public static final String PARCEABLE="Parcelable";
 
     public static final String ADDRESS="address";
+
+    public static final String SHOP="shop";
+
 
 }

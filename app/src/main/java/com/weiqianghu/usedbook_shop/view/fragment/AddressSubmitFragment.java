@@ -64,7 +64,6 @@ public class AddressSubmitFragment extends BaseFragment {
             switch (v.getId()) {
                 case R.id.btn_submit:
                     if (beforeSubmit()) {
-                        String address = provinceName + cityName + countyName + detailAddress;
                         if (mFragmentManager == null) {
                             mFragmentManager = getActivity().getSupportFragmentManager();
                         }
@@ -73,7 +72,10 @@ public class AddressSubmitFragment extends BaseFragment {
                             mFragment = new BasicInfoForApplyForShopFragment();
                         }
 
-                        mFragment.getArguments().putString(Constant.ADDRESS, address);
+                        mFragment.getArguments().putString(Constant.PROVINCE, provinceName);
+                        mFragment.getArguments().putString(Constant.CITY, cityName);
+                        mFragment.getArguments().putString(Constant.COUNTY, countyName);
+                        mFragment.getArguments().putString(Constant.DETAIL_ADDRESS, detailAddress);
 
                         getActivity().onBackPressed();
                         getActivity().onBackPressed();

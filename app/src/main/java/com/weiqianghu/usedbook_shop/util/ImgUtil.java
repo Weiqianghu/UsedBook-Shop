@@ -1,5 +1,7 @@
 package com.weiqianghu.usedbook_shop.util;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
@@ -8,13 +10,16 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+
+import me.nereo.multi_image_selector.MultiImageSelectorActivity;
 
 /**
  * Created by 胡伟强 on 2016/2/5.
  */
 public class ImgUtil {
     // 根据路径获得图片并压缩，返回bitmap用于显示
-    public static String getSmallImgPath(String filePath,int reqWidth, int reqHeight) {
+    public static String getSmallImgPath(String filePath, int reqWidth, int reqHeight) {
         final BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = true;
         BitmapFactory.decodeFile(filePath, options);
@@ -87,5 +92,21 @@ public class ImgUtil {
                     }
                 }
             }
+    }
+
+    public static boolean selectSingleImg(Activity activity,int resuetCode) {
+        ArrayList<String> defaultDataArray = new ArrayList<>();
+
+        Intent intent = new Intent(activity, MultiImageSelectorActivity.class);
+        // 是否显示调用相机拍照
+        intent.putExtra(MultiImageSelectorActivity.EXTRA_SHOW_CAMERA, true);
+        // 最大图片选择数量
+        intent.putExtra(MultiImageSelectorActivity.EXTRA_SELECT_COUNT, 1);
+        // 设置模式 (支持 单选/MultiImageSelectorActivity.MODE_SINGLE 或者 多选/MultiImageSelectorActivity.MODE_MULTI)
+        intent.putExtra(MultiImageSelectorActivity.EXTRA_SELECT_MODE, MultiImageSelectorActivity.MODE_SINGLE);
+        // 默认选择图片,回填选项(支持String ArrayList)
+        intent.putStringArrayListExtra(MultiImageSelectorActivity.EXTRA_DEFAULT_SELECTED_LIST, defaultDataArray);
+        activity.startActivityForResult(intent,resuetCode);
+        return true;
     }
 }

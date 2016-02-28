@@ -32,11 +32,16 @@
 
     <string name="suggest_apply_for_shop">您还没有开店，快去申请开店</string>
 
-   <string name="contacts">联系人</string>
+    <string name="contacts">联系人</string>
     <string name="shop_name">店名</string>
     <string name="contact_number">联系电话</string>
 
     <string name="address">地址</string>
     <string name="next">下一步</string>
     <string name="detail_address_hint">请输入详细地址</string>
+    <string name="id">身份证号码，需和联系人一致</string>
+
+    <string name="id_front">身份证正面照,点击下图上传</string>
+    <string name="id_back">身份证背面照,点击下图上传</string>
+    <string name="submit_pply">提交申请</string>
 </resources>

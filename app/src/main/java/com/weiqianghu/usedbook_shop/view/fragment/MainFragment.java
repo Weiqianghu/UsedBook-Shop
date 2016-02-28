@@ -99,7 +99,7 @@ public class MainFragment extends BaseFragment {
             }
         });
 
-        mToolbar= (Toolbar) mRootView.findViewById(R.id.toolbar);
+        mToolbar= (Toolbar) mRootView.findViewById(R.id.center_toolbar);
         mToolbar.setTitle(R.string.main_page);
         mToolbar.inflateMenu(R.menu.main);
         mToolbar.setOnMenuItemClickListener(onMenuItemClick);

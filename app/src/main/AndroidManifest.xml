@@ -32,6 +32,9 @@
             android:name=".view.activity.LoginAndRegisterActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".view.activity.ApplyForShopActivity"></activity>
+        <activity
+            android:name="me.nereo.multi_image_selector.MultiImageSelectorActivity"
+            android:theme="@style/BaseAppTheme"></activity>
     </application>
 
 </manifest>

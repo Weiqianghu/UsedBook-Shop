@@ -1,0 +1,74 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.weiqianghu.usedbook_shop.view.fragment.PrivateInfoForApplyForShopFragment">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <com.weiqianghu.usedbook_shop.view.customview.ClearEditText
+                android:id="@+id/et_id"
+                style="@style/id_edit_text_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/id" />
+
+            <TextView
+                style="?android:attr/textAppearanceSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/id_front" />
+
+            <ImageView
+                android:id="@+id/iv_id_front"
+                android:layout_width="300dp"
+                android:layout_height="200dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_margin="10dp"
+                android:background="@drawable/box_bg"
+                android:scaleType="center"
+                android:src="@mipmap/iconfont_id_front" />
+
+            <TextView
+                style="?android:attr/textAppearanceSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/id_back" />
+
+            <ImageView
+                android:id="@+id/iv_id_back"
+                android:layout_width="300dp"
+                android:layout_height="200dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_margin="10dp"
+                android:background="@drawable/box_bg"
+                android:scaleType="center"
+                android:src="@mipmap/iconfont_id_back" />
+
+            <Button
+                android:id="@+id/btn_submit"
+                style="@style/common_text_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:background="@drawable/btn_background"
+                android:text="@string/submit_pply" />
+        </LinearLayout>
+
+        <ProgressBar
+            android:id="@+id/pb_loading"
+            android:layout_width="@dimen/large_dp"
+            android:layout_height="@dimen/large_dp"
+            android:layout_centerInParent="true"
+            android:visibility="invisible" />
+    </RelativeLayout>
+</ScrollView>
