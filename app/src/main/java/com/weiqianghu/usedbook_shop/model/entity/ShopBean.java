@@ -1,5 +1,7 @@
 package com.weiqianghu.usedbook_shop.model.entity;
 
+import com.weiqianghu.usedbook_shop.util.Constant;
+
 import java.io.Serializable;
 
 import cn.bmob.v3.BmobObject;
@@ -23,16 +25,16 @@ public class ShopBean extends BmobObject implements Serializable{
 
     public String getVerifyStateStr() {
         switch (verifyState){
-            case 0:
+            case Constant.AUDIT_STATE0:
                 verifyStateStr="信息已提交，等待审核";
                 break;
-            case 1:
+            case Constant.AUDIT_STATE1:
                 verifyStateStr="审核通过";
                 break;
-            case 2:
+            case Constant.AUDIT_STATE2:
                 verifyStateStr="审核失败，身份证和联系人不匹配";
                 break;
-            case 3:
+            case Constant.AUDIT_STATE3:
                 verifyStateStr="审核失败，身份证照片太模糊，不能辨认信息";
                 break;
         }

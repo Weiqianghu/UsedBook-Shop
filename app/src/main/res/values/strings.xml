@@ -44,4 +44,10 @@
     <string name="id_front">身份证正面照,点击下图上传</string>
     <string name="id_back">身份证背面照,点击下图上传</string>
     <string name="submit_pply">提交申请</string>
+
+    <string name="login_other_account">登陆其他账户</string>
+    <string name="repeat_submit_info">重新提交信息</string>
+
+    <string name="audit_failure">审核失败</string>
+    <string name="auditing">审核中</string>
 </resources>

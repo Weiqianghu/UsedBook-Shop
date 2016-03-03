@@ -31,10 +31,11 @@
         <activity
             android:name=".view.activity.LoginAndRegisterActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".view.activity.ApplyForShopActivity"></activity>
+        <activity android:name=".view.activity.ApplyForShopActivity" />
         <activity
             android:name="me.nereo.multi_image_selector.MultiImageSelectorActivity"
-            android:theme="@style/BaseAppTheme"></activity>
+            android:theme="@style/BaseAppTheme" />
+        <activity android:name=".view.activity.AuditActivity"></activity>
     </application>
 
 </manifest>

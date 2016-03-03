@@ -1,0 +1,66 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.weiqianghu.usedbook_shop.view.fragment.AuditingFragment">
+
+    <include layout="@layout/center_title_toolbar"></include>
+
+    <ImageView
+        android:id="@+id/icon"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="100dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@mipmap/iconfont_zigedaishenhe" />
+
+    <TextView
+        android:id="@+id/text"
+        android:layout_marginTop="10dp"
+        style="@style/common_text_style"
+        android:layout_centerHorizontal="true"
+        android:text="您的资料已提交，待管理员审核，请耐心等待"
+        android:layout_below="@+id/icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:layout_margin="10dp"
+        android:layout_below="@+id/text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/tv_login_other_account"
+            style="@style/link_text_style"
+            android:gravity="left"
+            android:layout_marginLeft="10dp"
+            android:text="@string/login_other_account"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:padding="10dp"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/tv_repeat_submit_info"
+            style="@style/link_text_style"
+            android:text="@string/repeat_submit_info"
+            android:layout_marginRight="10dp"
+            android:gravity="right"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:padding="10dp"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_submit"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:text="@string/submit"
+        style="@style/common_text_style"
+        android:background="@drawable/btn_background"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+</RelativeLayout>

@@ -45,5 +45,11 @@ public class Constant {
 
     public static final String SHOP="shop";
 
+    public static final int AUDIT_STATE0=0;
+    public static final int AUDIT_STATE1=1;
+    public static final int AUDIT_STATE2=2;
+    public static final int AUDIT_STATE3=3;
+    public static final String AUDIT_STATE="audit_state";
+
 
 }

@@ -1,6 +1,7 @@
 package com.weiqianghu.usedbook_shop.view.fragment;
 
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Message;
@@ -21,6 +22,7 @@ import com.weiqianghu.usedbook_shop.util.Constant;
 import com.weiqianghu.usedbook_shop.util.FileUtil;
 import com.weiqianghu.usedbook_shop.util.ImgUtil;
 import com.weiqianghu.usedbook_shop.view.ISaveView;
+import com.weiqianghu.usedbook_shop.view.activity.AuditActivity;
 import com.weiqianghu.usedbook_shop.view.common.BaseFragment;
 import com.weiqianghu.usedbook_shop.view.customview.ClearEditText;
 import com.weiqianghu.usedbook_shop.view.view.IUpdateView;
@@ -152,9 +154,10 @@ public class PrivateInfoForApplyForShopFragment extends BaseFragment implements 
         public void handleSuccessMessage(Message msg) {
             switch (msg.what) {
                 case Constant.SUCCESS:
-                    getActivity().onBackPressed();
-                    getActivity().onBackPressed();
-                    Toast.makeText(getActivity(),"您的信息已提交，请等待审核",Toast.LENGTH_SHORT).show();
+                    Intent intent=new Intent(getActivity(), AuditActivity.class);
+                    intent.putExtra(Constant.AUDIT_STATE,Constant.AUDIT_STATE0);
+                    startActivity(intent);
+                    getActivity().finish();
                     break;
             }
         }

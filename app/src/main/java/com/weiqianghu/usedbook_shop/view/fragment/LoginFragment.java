@@ -20,8 +20,11 @@ import com.weiqianghu.usedbook_shop.model.entity.FailureMessageModel;
 import com.weiqianghu.usedbook_shop.model.entity.UserBean;
 import com.weiqianghu.usedbook_shop.presenter.IsShopPresenter;
 import com.weiqianghu.usedbook_shop.presenter.LoginPresenter;
+import com.weiqianghu.usedbook_shop.presenter.QueryAuditStatePresenter;
+import com.weiqianghu.usedbook_shop.util.CallBackHandler;
 import com.weiqianghu.usedbook_shop.util.Constant;
 import com.weiqianghu.usedbook_shop.view.activity.ApplyForShopActivity;
+import com.weiqianghu.usedbook_shop.view.activity.AuditActivity;
 import com.weiqianghu.usedbook_shop.view.activity.LoginAndRegisterActivity;
 import com.weiqianghu.usedbook_shop.view.activity.MainActivity;
 import com.weiqianghu.usedbook_shop.view.activity.SplashActivity;
@@ -52,6 +55,8 @@ public class LoginFragment extends BaseFragment implements ILoginView {
     private String password;
 
     private IsShopPresenter mIsShopPresenter;
+    private QueryAuditStatePresenter mQueryAuditStatePresenter;
+    private int auditState = -1;
 
     @Override
     protected int getLayoutId() {
@@ -77,25 +82,19 @@ public class LoginFragment extends BaseFragment implements ILoginView {
         mLoading = (ProgressBar) mRootView.findViewById(R.id.pb_loading);
         mUsernameEt = (ClearEditText) mRootView.findViewById(R.id.et_username);
         mPasswordEt = (ClearEditText) mRootView.findViewById(R.id.et_password);
-        mIsShopPresenter=new IsShopPresenter();
+        mIsShopPresenter = new IsShopPresenter();
+        mQueryAuditStatePresenter = new QueryAuditStatePresenter(queryAuditStateHanler);
     }
 
     public Handler loginHandler = new Handler() {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case Constant.SUCCESS:
+
+                    mQueryAuditStatePresenter.queryAuditState(getActivity(), BmobUser.getCurrentUser(getActivity(), UserBean.class));
                     mLoading.setVisibility(View.INVISIBLE);
                     mLoginBtn.setClickable(true);
                     Toast.makeText(getActivity(), "登陆成功", Toast.LENGTH_SHORT).show();
-                    if(mIsShopPresenter.isShop(BmobUser.getCurrentUser(getActivity(),UserBean.class))){
-                        Intent intent=new Intent(getActivity(), MainActivity.class);
-                        startActivity(intent);
-                    }
-                    else {
-                        Intent intent = new Intent(getActivity(), ApplyForShopActivity.class);
-                        startActivity(intent);
-                    }
-                    getActivity().finish();
                     break;
                 case Constant.FAILURE:
                     Bundle bundle = msg.getData();
@@ -106,6 +105,33 @@ public class LoginFragment extends BaseFragment implements ILoginView {
                     Toast.makeText(getActivity(), failureMsg, Toast.LENGTH_SHORT).show();
                     break;
             }
+        }
+    };
+
+    CallBackHandler queryAuditStateHanler = new CallBackHandler() {
+        public void handleSuccessMessage(Message msg) {
+            switch (msg.what) {
+                case Constant.SUCCESS:
+                    auditState = msg.getData().getInt(Constant.AUDIT_STATE);
+
+                    if (!mIsShopPresenter.isShop(BmobUser.getCurrentUser(getActivity(), UserBean.class))) {
+                        Intent intent = new Intent(getActivity(), ApplyForShopActivity.class);
+                        startActivity(intent);
+                    } else if (auditState != Constant.AUDIT_STATE1) {
+                        Intent intent = new Intent(getActivity(), AuditActivity.class);
+                        intent.putExtra(Constant.AUDIT_STATE, auditState);
+                        startActivity(intent);
+                    } else {
+                        Intent intent = new Intent(getActivity(), MainActivity.class);
+                        startActivity(intent);
+                    }
+                    getActivity().finish();
+                    break;
+            }
+        }
+
+        public void handleFailureMessage(String msg) {
+            Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
         }
     };
 
