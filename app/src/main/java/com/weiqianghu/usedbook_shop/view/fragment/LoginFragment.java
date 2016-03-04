@@ -116,13 +116,16 @@ public class LoginFragment extends BaseFragment implements ILoginView {
 
                     if (!mIsShopPresenter.isShop(BmobUser.getCurrentUser(getActivity(), UserBean.class))) {
                         Intent intent = new Intent(getActivity(), ApplyForShopActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(intent);
                     } else if (auditState != Constant.AUDIT_STATE1) {
                         Intent intent = new Intent(getActivity(), AuditActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         intent.putExtra(Constant.AUDIT_STATE, auditState);
                         startActivity(intent);
                     } else {
                         Intent intent = new Intent(getActivity(), MainActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(intent);
                     }
                     getActivity().finish();

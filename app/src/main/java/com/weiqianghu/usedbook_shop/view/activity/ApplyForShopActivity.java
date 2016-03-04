@@ -54,15 +54,6 @@ public class ApplyForShopActivity extends AppCompatActivity {
         }
         FragmentUtil.addContentNoAnimation(R.id.apply_for_shop_container, mFragment, mFragmentManager, SuggestApplyForShopFragment.TAG);
 
-        mToolBar = (Toolbar) findViewById(R.id.center_toolbar);
-        mToolBar.setNavigationIcon(R.mipmap.left);
-        mToolBar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
-
     }
 
     @Override

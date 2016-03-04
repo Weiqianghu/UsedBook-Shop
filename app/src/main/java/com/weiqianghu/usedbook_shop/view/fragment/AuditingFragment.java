@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.weiqianghu.usedbook_shop.R;
@@ -21,6 +22,7 @@ public class AuditingFragment extends BaseFragment {
     private TextView mTitle;
     private TextView mLoginOtherAccount;
     private TextView mRepeatSubmitInfo;
+    private Button mSubmitBtn;
 
     @Override
     protected int getLayoutId() {
@@ -43,6 +45,8 @@ public class AuditingFragment extends BaseFragment {
         mLoginOtherAccount.setOnClickListener(click);
         mRepeatSubmitInfo = (TextView) mRootView.findViewById(R.id.tv_repeat_submit_info);
         mRepeatSubmitInfo.setOnClickListener(click);
+        mSubmitBtn= (Button) mRootView.findViewById(R.id.btn_submit);
+        mSubmitBtn.setOnClickListener(click);
     }
 
     private class Click implements View.OnClickListener {
@@ -58,6 +62,9 @@ public class AuditingFragment extends BaseFragment {
                 case R.id.tv_repeat_submit_info:
                     intent = new Intent(getActivity(), ApplyForShopActivity.class);
                     startActivity(intent);
+                    break;
+                case R.id.btn_submit:
+                    getActivity().finish();
                     break;
             }
         }
