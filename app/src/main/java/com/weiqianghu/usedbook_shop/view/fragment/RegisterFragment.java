@@ -2,12 +2,9 @@ package com.weiqianghu.usedbook_shop.view.fragment;
 
 import android.os.Bundle;
 import android.os.Message;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.weiqianghu.usedbook_shop.R;
@@ -18,9 +15,9 @@ import com.weiqianghu.usedbook_shop.util.CallBackHandler;
 import com.weiqianghu.usedbook_shop.util.Constant;
 import com.weiqianghu.usedbook_shop.util.InputUtil;
 import com.weiqianghu.usedbook_shop.util.TimeCount;
-import com.weiqianghu.usedbook_shop.view.IRegisterView;
-import com.weiqianghu.usedbook_shop.view.ISendSmsCodeView;
-import com.weiqianghu.usedbook_shop.view.IVerifySmsCodeView;
+import com.weiqianghu.usedbook_shop.view.view.IRegisterView;
+import com.weiqianghu.usedbook_shop.view.view.ISendSmsCodeView;
+import com.weiqianghu.usedbook_shop.view.view.IVerifySmsCodeView;
 import com.weiqianghu.usedbook_shop.view.common.BaseFragment;
 import com.weiqianghu.usedbook_shop.view.customview.ClearEditText;
 

@@ -1,7 +1,9 @@
 <resources>
-    <style name="AppTheme" parent="@style/BaseAppTheme">
-        <item name="android:windowTranslucentStatus">true</item>
-        <item name="android:colorControlNormal">@color/white</item>
-    </style>
 
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:statusBarColor">@color/mainColor</item>
+    </style>
 </resources>

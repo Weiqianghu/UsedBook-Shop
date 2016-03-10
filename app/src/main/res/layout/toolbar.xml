@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/mainColor"
-    android:fitsSystemWindows="true"
-    app:titleTextColor="@color/white"
+    app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
     app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-    app:popupTheme="@style/ThemeOverlay.AppCompat.Light"></android.support.v7.widget.Toolbar>
+    app:titleTextColor="@color/white"></android.support.v7.widget.Toolbar>

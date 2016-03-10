@@ -10,7 +10,7 @@ import com.weiqianghu.usedbook_shop.model.entity.FailureMessageModel;
 import com.weiqianghu.usedbook_shop.model.impl.SendSmsModel;
 import com.weiqianghu.usedbook_shop.model.inf.ISendSmsModel;
 import com.weiqianghu.usedbook_shop.util.Constant;
-import com.weiqianghu.usedbook_shop.view.ISendSmsCodeView;
+import com.weiqianghu.usedbook_shop.view.view.ISendSmsCodeView;
 
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.RequestSMSCodeListener;

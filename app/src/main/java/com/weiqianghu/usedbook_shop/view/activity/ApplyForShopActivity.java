@@ -64,7 +64,6 @@ public class ApplyForShopActivity extends AppCompatActivity {
             if (resultCode == RESULT_OK) {
                 // 获取返回的图片列表
                 List<String> path = data.getStringArrayListExtra(MultiImageSelectorActivity.EXTRA_RESULT);
-                // 处理你自己的逻辑 ....
 
                 if (mFragmentManager == null) {
                     mFragmentManager = getSupportFragmentManager();

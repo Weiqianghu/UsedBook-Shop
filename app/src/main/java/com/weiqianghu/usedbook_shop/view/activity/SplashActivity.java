@@ -43,7 +43,10 @@ public class SplashActivity extends AppCompatActivity {
         mIsShopPresenter = new IsShopPresenter();
         mQueryAuditStatePresenter = new QueryAuditStatePresenter(queryAuditStateHanler);
 
-        mQueryAuditStatePresenter.queryAuditState(SplashActivity.this, BmobUser.getCurrentUser(SplashActivity.this, UserBean.class));
+        UserBean currentUser = BmobUser.getCurrentUser(SplashActivity.this, UserBean.class);
+        if (currentUser != null) {
+            mQueryAuditStatePresenter.queryAuditState(SplashActivity.this, currentUser);
+        }
         //删除上传文件时生成的临时文件
         new Thread() {
             public void run() {
@@ -67,11 +70,11 @@ public class SplashActivity extends AppCompatActivity {
                 intent = new Intent(SplashActivity.this, ApplyForShopActivity.class);
             } else if ((auditState != -1 && auditState != Constant.AUDIT_STATE1)) {
                 intent = new Intent(SplashActivity.this, AuditActivity.class);
-                intent.putExtra(Constant.AUDIT_STATE,auditState);
+                intent.putExtra(Constant.AUDIT_STATE, auditState);
             } else if (auditState == -1 && (auditState = mQueryAuditStatePresenter.queryAuditState(BmobUser.getCurrentUser(SplashActivity.this, UserBean.class))) != Constant.AUDIT_STATE1) {
                 intent = new Intent(SplashActivity.this, AuditActivity.class);
-                intent.putExtra(Constant.AUDIT_STATE,auditState);
-            }else {
+                intent.putExtra(Constant.AUDIT_STATE, auditState);
+            } else {
                 intent = new Intent(SplashActivity.this, MainActivity.class);
             }
             startActivity(intent);

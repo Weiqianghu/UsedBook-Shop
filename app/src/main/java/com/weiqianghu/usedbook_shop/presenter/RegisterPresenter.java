@@ -9,7 +9,7 @@ import com.weiqianghu.usedbook_shop.model.entity.FailureMessageModel;
 import com.weiqianghu.usedbook_shop.model.impl.RegisterModel;
 import com.weiqianghu.usedbook_shop.model.inf.IRegisterModel;
 import com.weiqianghu.usedbook_shop.util.Constant;
-import com.weiqianghu.usedbook_shop.view.IRegisterView;
+import com.weiqianghu.usedbook_shop.view.view.IRegisterView;
 
 import cn.bmob.v3.listener.SaveListener;
 

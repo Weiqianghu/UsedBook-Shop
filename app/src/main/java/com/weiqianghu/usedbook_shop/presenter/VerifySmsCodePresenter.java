@@ -9,7 +9,7 @@ import com.weiqianghu.usedbook_shop.model.entity.FailureMessageModel;
 import com.weiqianghu.usedbook_shop.model.impl.VerifySmsModel;
 import com.weiqianghu.usedbook_shop.model.inf.IVerifySmsModel;
 import com.weiqianghu.usedbook_shop.util.Constant;
-import com.weiqianghu.usedbook_shop.view.IVerifySmsCodeView;
+import com.weiqianghu.usedbook_shop.view.view.IVerifySmsCodeView;
 
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.VerifySMSCodeListener;

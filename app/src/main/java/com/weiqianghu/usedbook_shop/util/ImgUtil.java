@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.support.v4.app.Fragment;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -94,7 +95,7 @@ public class ImgUtil {
             }
     }
 
-    public static boolean selectSingleImg(Activity activity,int resuetCode) {
+    public static boolean selectSingleImg(Activity activity,int requestCode) {
         ArrayList<String> defaultDataArray = new ArrayList<>();
 
         Intent intent = new Intent(activity, MultiImageSelectorActivity.class);
@@ -106,7 +107,23 @@ public class ImgUtil {
         intent.putExtra(MultiImageSelectorActivity.EXTRA_SELECT_MODE, MultiImageSelectorActivity.MODE_SINGLE);
         // 默认选择图片,回填选项(支持String ArrayList)
         intent.putStringArrayListExtra(MultiImageSelectorActivity.EXTRA_DEFAULT_SELECTED_LIST, defaultDataArray);
-        activity.startActivityForResult(intent,resuetCode);
+        activity.startActivityForResult(intent,requestCode);
+        return true;
+    }
+
+    public static boolean selectSingleImgForFragment(Fragment fragment, int requestCode) {
+        ArrayList<String> defaultDataArray = new ArrayList<>();
+
+        Intent intent = new Intent(fragment.getActivity(), MultiImageSelectorActivity.class);
+        // 是否显示调用相机拍照
+        intent.putExtra(MultiImageSelectorActivity.EXTRA_SHOW_CAMERA, true);
+        // 最大图片选择数量
+        intent.putExtra(MultiImageSelectorActivity.EXTRA_SELECT_COUNT, 1);
+        // 设置模式 (支持 单选/MultiImageSelectorActivity.MODE_SINGLE 或者 多选/MultiImageSelectorActivity.MODE_MULTI)
+        intent.putExtra(MultiImageSelectorActivity.EXTRA_SELECT_MODE, MultiImageSelectorActivity.MODE_SINGLE);
+        // 默认选择图片,回填选项(支持String ArrayList)
+        intent.putStringArrayListExtra(MultiImageSelectorActivity.EXTRA_DEFAULT_SELECTED_LIST, defaultDataArray);
+        fragment.startActivityForResult(intent,requestCode);
         return true;
     }
 }

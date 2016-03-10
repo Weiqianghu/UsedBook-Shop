@@ -21,7 +21,7 @@ import com.weiqianghu.usedbook_shop.util.CallBackHandler;
 import com.weiqianghu.usedbook_shop.util.Constant;
 import com.weiqianghu.usedbook_shop.util.FileUtil;
 import com.weiqianghu.usedbook_shop.util.ImgUtil;
-import com.weiqianghu.usedbook_shop.view.ISaveView;
+import com.weiqianghu.usedbook_shop.view.view.ISaveView;
 import com.weiqianghu.usedbook_shop.view.activity.AuditActivity;
 import com.weiqianghu.usedbook_shop.view.common.BaseFragment;
 import com.weiqianghu.usedbook_shop.view.customview.ClearEditText;
@@ -155,6 +155,7 @@ public class PrivateInfoForApplyForShopFragment extends BaseFragment implements 
             switch (msg.what) {
                 case Constant.SUCCESS:
                     Intent intent=new Intent(getActivity(), AuditActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     intent.putExtra(Constant.AUDIT_STATE,Constant.AUDIT_STATE0);
                     startActivity(intent);
                     getActivity().finish();

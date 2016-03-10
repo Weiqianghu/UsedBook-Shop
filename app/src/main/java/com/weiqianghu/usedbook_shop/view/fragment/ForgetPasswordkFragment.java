@@ -5,9 +5,7 @@ import android.os.Bundle;
 import android.os.Message;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.weiqianghu.usedbook_shop.R;
@@ -17,7 +15,7 @@ import com.weiqianghu.usedbook_shop.util.CallBackHandler;
 import com.weiqianghu.usedbook_shop.util.Constant;
 import com.weiqianghu.usedbook_shop.util.InputUtil;
 import com.weiqianghu.usedbook_shop.util.TimeCount;
-import com.weiqianghu.usedbook_shop.view.ISendSmsCodeView;
+import com.weiqianghu.usedbook_shop.view.view.ISendSmsCodeView;
 import com.weiqianghu.usedbook_shop.view.common.BaseFragment;
 import com.weiqianghu.usedbook_shop.view.customview.ClearEditText;
 import com.weiqianghu.usedbook_shop.view.view.IResetPasswordView;

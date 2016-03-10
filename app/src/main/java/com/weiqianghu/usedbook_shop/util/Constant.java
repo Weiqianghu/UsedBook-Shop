@@ -51,5 +51,15 @@ public class Constant {
     public static final int AUDIT_STATE3=3;
     public static final String AUDIT_STATE="audit_state";
 
+    public static final int TAB_SHOP=20;
+    public static final int TAB_ORDER=21;
+    public static final int TAB_MINE=22;
 
+    public static final int ADD_NEW_BOOK=31;
+
+    public static final String BOOK="book";
+
+    public static final int IMG1=41;
+    public static final int IMG2=42;
+    public static final int IMG3=43;
 }

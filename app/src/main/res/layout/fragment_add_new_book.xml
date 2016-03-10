@@ -1,0 +1,122 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.weiqianghu.usedbook_shop.view.fragment.AddNewBookFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.weiqianghu.usedbook_shop.view.customview.ClearEditText
+                android:id="@+id/et_book_name"
+                style="@style/common_Text_input_layoutedit_text_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/book_name" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.weiqianghu.usedbook_shop.view.customview.ClearEditText
+                android:id="@+id/et_isbn"
+                style="@style/common_Text_input_layoutedit_text_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/isbn"
+                android:shadowColor="@color/mainColor"
+                android:maxLength="20"/>
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.weiqianghu.usedbook_shop.view.customview.ClearEditText
+                android:id="@+id/et_price"
+                style="@style/common_Text_input_layoutedit_text_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/price"
+                android:inputType="numberDecimal"/>
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.weiqianghu.usedbook_shop.view.customview.ClearEditText
+                android:id="@+id/et_press"
+                style="@style/common_Text_input_layoutedit_text_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/press" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.weiqianghu.usedbook_shop.view.customview.ClearEditText
+                android:id="@+id/et_author"
+                style="@style/common_Text_input_layoutedit_text_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/author" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.weiqianghu.usedbook_shop.view.customview.ClearEditText
+                android:id="@+id/et_category"
+                style="@style/common_Text_input_layoutedit_text_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/category" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.weiqianghu.usedbook_shop.view.customview.ClearEditText
+                android:id="@+id/et_stock"
+                style="@style/common_Text_input_layoutedit_text_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/stock"
+                android:inputType="number"/>
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.weiqianghu.usedbook_shop.view.customview.ClearEditText
+                android:id="@+id/et_percent_describe"
+                style="@style/common_Text_input_layoutedit_text_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/percent_describe" />
+        </android.support.design.widget.TextInputLayout>
+
+        <Button
+            android:id="@+id/btn_submit"
+            style="@style/common_text_style"
+            android:text="@string/next"
+            android:background="@drawable/btn_background"
+            android:layout_margin="10dp"
+            android:textColor="@color/white"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+</ScrollView>
