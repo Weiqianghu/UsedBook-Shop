@@ -4,52 +4,64 @@
     android:layout_height="match_parent"
     tools:context="com.weiqianghu.usedbook_shop.view.fragment.UploadBookImgsFragment">
 
-
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-        <TextView
-            style="@style/common_text_style"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_margin="10dp"
-            android:text="上传图片，最多可上传三张" />
-
-
-        <ImageView
-            android:id="@+id/iv_1"
-            android:background="@drawable/box_bg"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/img_height"
-            android:layout_margin="10dp"
-            android:src="@mipmap/upload_img" />
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/iv_2"
-            android:background="@drawable/box_bg"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/img_height"
-            android:layout_margin="10dp"
-            android:src="@mipmap/upload_img" />
+            <TextView
+                style="@style/common_text_style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_margin="10dp"
+                android:text="上传图片，最多可上传三张" />
 
-        <ImageView
-            android:id="@+id/iv_3"
-            android:background="@drawable/box_bg"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/img_height"
-            android:layout_margin="10dp"
-            android:src="@mipmap/upload_img" />
 
-        <Button
-            android:id="@+id/btn_submit"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:background="@drawable/btn_background"
-            android:text="@string/submit"
-            android:textColor="@color/white" />
-    </LinearLayout>
+            <ImageView
+                android:id="@+id/iv_1"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/img_height"
+                android:layout_margin="10dp"
+                android:background="@drawable/box_bg"
+                android:src="@mipmap/upload_img" />
+
+            <ImageView
+                android:id="@+id/iv_2"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/img_height"
+                android:layout_margin="10dp"
+                android:background="@drawable/box_bg"
+                android:src="@mipmap/upload_img" />
+
+            <ImageView
+                android:id="@+id/iv_3"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/img_height"
+                android:layout_margin="10dp"
+                android:background="@drawable/box_bg"
+                android:src="@mipmap/upload_img" />
+
+            <Button
+                android:id="@+id/btn_submit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:background="@drawable/btn_background"
+                android:text="@string/submit"
+                android:textColor="@color/white" />
+        </LinearLayout>
+
+        <ProgressBar
+            android:id="@+id/pb_loading"
+            android:layout_width="@dimen/large_dp"
+            android:layout_height="@dimen/large_dp"
+            android:layout_centerInParent="true"
+            android:visibility="invisible" />
+
+    </RelativeLayout>
 </ScrollView>

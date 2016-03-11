@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.weiqianghu.usedbook_shop.R;
@@ -54,7 +55,9 @@ public class UploadBookImgsFragment extends BaseFragment implements ISaveView {
     private boolean isImg2;
     private boolean isImg3;
 
-    private int times = 0;
+    private int times = 1;
+
+    private ProgressBar mLoading;
 
     @Override
     protected int getLayoutId() {
@@ -83,6 +86,8 @@ public class UploadBookImgsFragment extends BaseFragment implements ISaveView {
 
         mSavePresenter = new SavePresenter(this, saveHandler);
         mUploadBatchPresenter = new UploadBatchPresenter(uploadHandler);
+
+        mLoading= (ProgressBar) mRootView.findViewById(R.id.pb_loading);
     }
 
     public void initData() {
@@ -97,11 +102,12 @@ public class UploadBookImgsFragment extends BaseFragment implements ISaveView {
         public void handleSuccessMessage(Message msg) {
             switch (msg.what) {
                 case Constant.SUCCESS:
-                    mSubmitBtn.setClickable(true);
                     if (times < 3) {
                         times++;
                     } else {
                         times = 0;
+                        mLoading.setVisibility(View.INVISIBLE);
+                        mSubmitBtn.setClickable(true);
                         Toast.makeText(getActivity(), "上架成功", Toast.LENGTH_SHORT).show();
                         getActivity().onBackPressed();
                         getActivity().onBackPressed();
@@ -112,6 +118,7 @@ public class UploadBookImgsFragment extends BaseFragment implements ISaveView {
 
         public void handleFailureMessage(String msg) {
             mSubmitBtn.setClickable(true);
+            mLoading.setVisibility(View.INVISIBLE);
             Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
         }
     };
@@ -134,6 +141,7 @@ public class UploadBookImgsFragment extends BaseFragment implements ISaveView {
 
         public void handleFailureMessage(String msg) {
             mSubmitBtn.setClickable(true);
+            mLoading.setVisibility(View.INVISIBLE);
             Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
         }
     };
@@ -172,6 +180,7 @@ public class UploadBookImgsFragment extends BaseFragment implements ISaveView {
 
         mUploadBatchPresenter.uploadBatch(getActivity(), files);
         mSubmitBtn.setClickable(false);
+        mLoading.setVisibility(View.VISIBLE);
     }
 
     @Override
