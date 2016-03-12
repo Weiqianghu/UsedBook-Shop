@@ -6,14 +6,30 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
+import com.facebook.drawee.backends.pipeline.Fresco;
 import com.weiqianghu.usedbook_shop.R;
+import com.weiqianghu.usedbook_shop.model.entity.BookBean;
+import com.weiqianghu.usedbook_shop.model.entity.BookModel;
 import com.weiqianghu.usedbook_shop.model.entity.SerializableHandler;
+import com.weiqianghu.usedbook_shop.presenter.QueryBookImgsPresenter;
+import com.weiqianghu.usedbook_shop.presenter.QueryBooksPresenter;
+import com.weiqianghu.usedbook_shop.presenter.adapter.BookAdapter;
+import com.weiqianghu.usedbook_shop.util.CallBackHandler;
 import com.weiqianghu.usedbook_shop.util.Constant;
 import com.weiqianghu.usedbook_shop.util.FragmentUtil;
 import com.weiqianghu.usedbook_shop.view.common.BaseFragment;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ShopFragment extends BaseFragment {
     public static final String TAG = ShopFragment.class.getSimpleName();
@@ -31,8 +47,22 @@ public class ShopFragment extends BaseFragment {
     private FragmentManager mFragmentManager;
     private Fragment mFragment;
 
+    private RecyclerView mRecyclerView;
+    private List<BookModel> mData = new ArrayList();
+    private List<BookBean> mBooks = new ArrayList<>();
+    private BookAdapter mAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
+
+    private QueryBooksPresenter mQueryBooksPresenter;
+    private QueryBookImgsPresenter mQueryBookImgsPresenter;
+    private boolean isRefresh = false;
+    private int count = 0;
+    private static final int STEP = 15;
+
     @Override
     protected int getLayoutId() {
+        Fresco.initialize(getActivity());
         return R.layout.fragment_shop;
     }
 
@@ -47,7 +77,108 @@ public class ShopFragment extends BaseFragment {
 
         mAddNewBookBtn = (Button) mRootView.findViewById(R.id.btn_add_new_book);
         mAddNewBookBtn.setOnClickListener(click);
+
+        mRecyclerView = (RecyclerView) mRootView.findViewById(R.id.recyclerview);
+        mLayoutManager = new LinearLayoutManager(getActivity());
+        mAdapter = new BookAdapter(mData, R.layout.item_book);
+
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        mRecyclerView.setOnScrollListener(onScrollListener);
+
+        mSwipeRefreshLayout = (SwipeRefreshLayout) mRootView.findViewById(R.id.swiperefreshlayout);
+        mSwipeRefreshLayout.setColorSchemeResources(R.color.mainColor);
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                count = 0;
+                isRefresh = true;
+                queryData(count * STEP, STEP);
+            }
+        });
+
+        mQueryBooksPresenter = new QueryBooksPresenter(queryBooksHandler);
+        mQueryBookImgsPresenter = new QueryBookImgsPresenter(queryBookImgsHandler);
+
+        initData();
     }
+
+    private void initData() {
+        count = 0;
+        mSwipeRefreshLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                mSwipeRefreshLayout.setRefreshing(true);
+                queryData(count * STEP, STEP);
+            }
+        });
+
+    }
+
+    private void queryData(int start, int step) {
+        mQueryBooksPresenter.queryBooks(getActivity(), start, step);
+    }
+
+    CallBackHandler queryBooksHandler = new CallBackHandler() {
+        @Override
+        public void handleSuccessMessage(Message msg) {
+            switch (msg.what) {
+                case Constant.SUCCESS:
+                    Bundle bundle = msg.getData();
+                    List list = bundle.getParcelableArrayList(Constant.LIST);
+                    if (list != null && list.size() > 0) {
+                        mBooks.clear();
+                        mBooks.addAll(list);
+                        for (int i = 0, length = mBooks.size(); i < length; i++) {
+                            mQueryBookImgsPresenter.queryBookImgs(getActivity(), (BookBean) list.get(i));
+                        }
+                    }
+            }
+        }
+
+        @Override
+        public void handleFailureMessage(String msg) {
+            Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
+            mSwipeRefreshLayout.setRefreshing(false);
+        }
+    };
+
+    CallBackHandler queryBookImgsHandler = new CallBackHandler() {
+        @Override
+        public void handleSuccessMessage(Message msg) {
+            switch (msg.what) {
+                case Constant.SUCCESS:
+                    Bundle bundle = msg.getData();
+                    List list = bundle.getParcelableArrayList(Constant.LIST);
+                    BookBean bookBean = bundle.getParcelable(Constant.BOOK);
+
+                    BookModel bookModel = new BookModel();
+                    bookModel.setBook(bookBean);
+                    bookModel.setBookImgs(list);
+
+                    if (isRefresh) {
+                        mData.clear();
+                        isRefresh = false;
+                    }
+                    mData.add(bookModel);
+
+
+                    Log.d("list", bookModel.getBook().getBookName() + ",");
+
+
+                    mAdapter.notifyDataSetChanged();
+                    mSwipeRefreshLayout.setRefreshing(false);
+            }
+        }
+
+        @Override
+        public void handleFailureMessage(String msg) {
+            Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
+            mSwipeRefreshLayout.setRefreshing(false);
+        }
+    };
 
     private class Click implements View.OnClickListener {
 
@@ -76,4 +207,31 @@ public class ShopFragment extends BaseFragment {
         message.what = Constant.ADD_NEW_BOOK;
         mHandler.sendMessage(message);
     }
+
+    private void loadMore() {
+        count++;
+        queryData(count * STEP, STEP);
+    }
+
+    RecyclerView.OnScrollListener onScrollListener = new RecyclerView.OnScrollListener() {
+
+        private int totalItemCount;
+        private int lastVisibleItem;
+
+        @Override
+        public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+            super.onScrollStateChanged(recyclerView, newState);
+
+            if (lastVisibleItem >= totalItemCount - 1) {
+                loadMore();
+            }
+        }
+
+        @Override
+        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+            super.onScrolled(recyclerView, dx, dy);
+            lastVisibleItem = ((LinearLayoutManager) mLayoutManager).findLastVisibleItemPosition();
+            totalItemCount = mLayoutManager.getItemCount();
+        }
+    };
 }

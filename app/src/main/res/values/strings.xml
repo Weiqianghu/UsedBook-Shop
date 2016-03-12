@@ -64,4 +64,5 @@
     <string name="category">分类</string>
     <string name="stock">库存</string>
     <string name="percent_describe">品相(例如八成新)</string>
+    <string name="sales_volume">销量</string>
 </resources>

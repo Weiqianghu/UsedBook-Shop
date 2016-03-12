@@ -62,4 +62,6 @@ public class Constant {
     public static final int IMG1=41;
     public static final int IMG2=42;
     public static final int IMG3=43;
+
+    public static final String LIST="list";
 }

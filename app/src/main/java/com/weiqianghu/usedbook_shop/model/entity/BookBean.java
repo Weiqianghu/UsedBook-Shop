@@ -1,5 +1,8 @@
 package com.weiqianghu.usedbook_shop.model.entity;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.io.Serializable;
 
 import cn.bmob.v3.BmobObject;
@@ -7,7 +10,7 @@ import cn.bmob.v3.BmobObject;
 /**
  * Created by weiqianghu on 2016/3/10.
  */
-public class BookBean extends BmobObject implements Serializable{
+public class BookBean extends BmobObject implements Serializable,Parcelable{
     private String bookName;
     private String isbn;
     private double price;
@@ -20,6 +23,34 @@ public class BookBean extends BmobObject implements Serializable{
     private double percent;
     private String percentDescribe;
     private ShopBean shop;
+
+    public BookBean(){}
+
+    protected BookBean(Parcel in) {
+        bookName = in.readString();
+        isbn = in.readString();
+        price = in.readDouble();
+        press = in.readString();
+        author = in.readString();
+        category = in.readString();
+        isSell = in.readByte() != 0;
+        salesVolume = in.readInt();
+        stock = in.readInt();
+        percent = in.readDouble();
+        percentDescribe = in.readString();
+    }
+
+    public static final Creator<BookBean> CREATOR = new Creator<BookBean>() {
+        @Override
+        public BookBean createFromParcel(Parcel in) {
+            return new BookBean(in);
+        }
+
+        @Override
+        public BookBean[] newArray(int size) {
+            return new BookBean[size];
+        }
+    };
 
     public String getBookName() {
         return bookName;
@@ -115,5 +146,25 @@ public class BookBean extends BmobObject implements Serializable{
 
     public void setShop(ShopBean shop) {
         this.shop = shop;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(bookName);
+        dest.writeString(isbn);
+        dest.writeDouble(price);
+        dest.writeString(press);
+        dest.writeString(author);
+        dest.writeString(category);
+        dest.writeByte((byte) (isSell ? 1 : 0));
+        dest.writeInt(salesVolume);
+        dest.writeInt(stock);
+        dest.writeDouble(percent);
+        dest.writeString(percentDescribe);
     }
 }
