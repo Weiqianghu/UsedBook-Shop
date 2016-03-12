@@ -84,7 +84,7 @@ public class MainFragment extends BaseFragment {
         mTabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                 mViewPager.setCurrentItem(tab.getPosition());
+                mViewPager.setCurrentItem(tab.getPosition());
                 Message message = new Message();
                 switch (tab.getPosition()) {
                     case 0:
@@ -102,12 +102,12 @@ public class MainFragment extends BaseFragment {
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
-                Log.d("TabSelectedListener","onTabUnselected");
+                Log.d("TabSelectedListener", "onTabUnselected");
             }
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-                Log.d("TabSelectedListener","onTabReselected");
+                Log.d("TabSelectedListener", "onTabReselected");
             }
         });
 

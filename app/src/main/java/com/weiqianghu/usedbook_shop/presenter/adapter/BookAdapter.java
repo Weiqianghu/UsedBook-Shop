@@ -1,9 +1,9 @@
 package com.weiqianghu.usedbook_shop.presenter.adapter;
 
 import android.net.Uri;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.weiqianghu.usedbook_shop.R;
 import com.weiqianghu.usedbook_shop.model.entity.BookBean;
@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * Created by weiqianghu on 2016/3/11.
  */
-public class BookAdapter extends CommonAdapterForRecycleView implements View.OnClickListener {
+public class BookAdapter extends CommonAdapterForRecycleView {
 
     public BookAdapter(List datas, int itemLayoutId) {
         super(datas, itemLayoutId);
@@ -35,7 +35,6 @@ public class BookAdapter extends CommonAdapterForRecycleView implements View.OnC
         helper.setText(R.id.tv_sales_volume, String.valueOf(book.getSalesVolume()));
 
         if (bookImgs.size() > 0) {
-            Log.d("bookImgs", bookImgs.get(0).getImg());
             Uri uri = Uri.parse(bookImgs.get(0).getImg());
             helper.setImageForSimpleDraweeViewUri(R.id.iv_book, uri);
         } else {
@@ -45,7 +44,14 @@ public class BookAdapter extends CommonAdapterForRecycleView implements View.OnC
     }
 
     @Override
-    public void onClick(View v) {
-
+    public ViewHolderForRecyclerView onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view;
+        if (viewType == super.FOOTER_VIEW) {
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.footer, parent, false);
+        } else {
+            view = LayoutInflater.from(parent.getContext()).inflate(mItemLayoutId, parent, false);
+            view.setOnClickListener(this);
+        }
+        return ViewHolderForRecyclerView.get(view);
     }
 }

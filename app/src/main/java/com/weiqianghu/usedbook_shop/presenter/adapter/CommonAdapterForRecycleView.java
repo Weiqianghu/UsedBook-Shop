@@ -8,13 +8,14 @@ import android.view.ViewGroup;
 
 import com.weiqianghu.usedbook_shop.R;
 import com.weiqianghu.usedbook_shop.view.ViewHolderForRecyclerView;
+import com.weiqianghu.usedbook_shop.view.view.IRecycleViewItemClickListener;
 
 import java.util.List;
 
 /**
  * Created by weiqianghu on 2016/3/4.
  */
-public abstract class CommonAdapterForRecycleView<T> extends RecyclerView.Adapter<ViewHolderForRecyclerView> {
+public abstract class CommonAdapterForRecycleView<T> extends RecyclerView.Adapter<ViewHolderForRecyclerView> implements View.OnClickListener {
 
     protected List<T> mDatas;
     protected int mItemLayoutId;
@@ -74,5 +75,17 @@ public abstract class CommonAdapterForRecycleView<T> extends RecyclerView.Adapte
         return super.getItemViewType(position);
     }
 
+    private IRecycleViewItemClickListener mClickListener;
+
+    public void setOnItemClickListener(IRecycleViewItemClickListener listener) {
+        this.mClickListener = listener;
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (mClickListener != null) {
+            mClickListener.onItemClick(v, (Integer) v.getTag());
+        }
+    }
 
 }

@@ -27,11 +27,12 @@ import com.weiqianghu.usedbook_shop.util.CallBackHandler;
 import com.weiqianghu.usedbook_shop.util.Constant;
 import com.weiqianghu.usedbook_shop.util.FragmentUtil;
 import com.weiqianghu.usedbook_shop.view.common.BaseFragment;
+import com.weiqianghu.usedbook_shop.view.view.IRecycleViewItemClickListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ShopFragment extends BaseFragment {
+public class ShopFragment extends BaseFragment implements IRecycleViewItemClickListener {
     public static final String TAG = ShopFragment.class.getSimpleName();
 
     private SerializableHandler mHandler;
@@ -85,6 +86,7 @@ public class ShopFragment extends BaseFragment {
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setAdapter(mAdapter);
+        mAdapter.setOnItemClickListener(this);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.setOnScrollListener(onScrollListener);
 
@@ -164,10 +166,6 @@ public class ShopFragment extends BaseFragment {
                     }
                     mData.add(bookModel);
 
-
-                    Log.d("list", bookModel.getBook().getBookName() + ",");
-
-
                     mAdapter.notifyDataSetChanged();
                     mSwipeRefreshLayout.setRefreshing(false);
             }
@@ -179,6 +177,28 @@ public class ShopFragment extends BaseFragment {
             mSwipeRefreshLayout.setRefreshing(false);
         }
     };
+
+    @Override
+    public void onItemClick(View view, int postion) {
+        gotoBookDetail(postion);
+    }
+
+    private void gotoBookDetail(int position) {
+        if (mFragmentManager == null) {
+            mFragmentManager = getActivity().getSupportFragmentManager();
+        }
+        mFragment = mFragmentManager.findFragmentByTag(BookDetailFragment.TAG);
+        if (mFragment == null) {
+            mFragment = new BookDetailFragment();
+        }
+
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(Constant.SHOP, mData.get(position));
+
+        mFragment.setArguments(bundle);
+        Fragment from = mFragmentManager.findFragmentByTag(MainFragment.TAG);
+        FragmentUtil.switchContentAddToBackStack(from, mFragment, R.id.main_container, mFragmentManager, BookDetailFragment.TAG);
+    }
 
     private class Click implements View.OnClickListener {
 
