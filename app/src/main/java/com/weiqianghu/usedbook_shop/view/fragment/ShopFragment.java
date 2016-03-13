@@ -193,7 +193,7 @@ public class ShopFragment extends BaseFragment implements IRecycleViewItemClickL
         }
 
         Bundle bundle = new Bundle();
-        bundle.putParcelable(Constant.SHOP, mData.get(position));
+        bundle.putParcelable(Constant.BOOK, mData.get(position));
 
         mFragment.setArguments(bundle);
         Fragment from = mFragmentManager.findFragmentByTag(MainFragment.TAG);

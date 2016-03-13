@@ -65,4 +65,10 @@
     <string name="stock">库存</string>
     <string name="percent_describe">品相(例如八成新)</string>
     <string name="sales_volume">销量</string>
+    <string name="detail">详情</string>
+
+    <string name="edit">修改</string>
+
+    <string name="added">上架</string>
+    <string name="shelves">下架</string>
 </resources>
