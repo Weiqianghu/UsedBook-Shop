@@ -43,7 +43,7 @@ public class BookAdapter extends CommonAdapterForRecycleView {
         }
     }
 
-    @Override
+    /*@Override
     public ViewHolderForRecyclerView onCreateViewHolder(ViewGroup parent, int viewType) {
         View view;
         if (viewType == super.FOOTER_VIEW) {
@@ -53,5 +53,5 @@ public class BookAdapter extends CommonAdapterForRecycleView {
             view.setOnClickListener(this);
         }
         return ViewHolderForRecyclerView.get(view);
-    }
+    }*/
 }

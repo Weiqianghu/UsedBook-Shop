@@ -108,6 +108,7 @@ public class ShopFragment extends BaseFragment implements IRecycleViewItemClickL
     }
 
     private void initData() {
+        isRefresh = true;
         count = 0;
         mSwipeRefreshLayout.post(new Runnable() {
             @Override
@@ -136,6 +137,8 @@ public class ShopFragment extends BaseFragment implements IRecycleViewItemClickL
                         for (int i = 0, length = mBooks.size(); i < length; i++) {
                             mQueryBookImgsPresenter.queryBookImgs(getActivity(), (BookBean) list.get(i));
                         }
+                    } else {
+                        mSwipeRefreshLayout.setRefreshing(false);
                     }
             }
         }
