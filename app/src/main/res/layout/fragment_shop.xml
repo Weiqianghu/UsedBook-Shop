@@ -3,6 +3,25 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <LinearLayout
+        android:id="@+id/book_empty"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/data_empty" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="@string/book_empty" />
+    </LinearLayout>
 
     <android.support.v4.widget.SwipeRefreshLayout xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/swiperefreshlayout"
@@ -11,7 +30,7 @@
         android:layout_weight="1"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <android.support.v7.widget.RecyclerView
+        <com.weiqianghu.usedbook_shop.view.customview.EmptyRecyclerView
             android:id="@+id/recyclerview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
@@ -20,9 +39,10 @@
     <Button
         android:id="@+id/btn_add_new_book"
         style="@style/common_text_style"
-        android:textColor="@color/white"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/btn_background"
-        android:text="@string/add_new_book" />
+        android:text="@string/add_new_book"
+        android:textColor="@color/white" />
+
 </LinearLayout>

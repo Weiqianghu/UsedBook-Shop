@@ -2,7 +2,6 @@ package com.weiqianghu.usedbook_shop.view.fragment;
 
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -10,7 +9,6 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -27,6 +25,7 @@ import com.weiqianghu.usedbook_shop.util.CallBackHandler;
 import com.weiqianghu.usedbook_shop.util.Constant;
 import com.weiqianghu.usedbook_shop.util.FragmentUtil;
 import com.weiqianghu.usedbook_shop.view.common.BaseFragment;
+import com.weiqianghu.usedbook_shop.view.customview.EmptyRecyclerView;
 import com.weiqianghu.usedbook_shop.view.view.IRecycleViewItemClickListener;
 
 import java.util.ArrayList;
@@ -48,7 +47,7 @@ public class ShopFragment extends BaseFragment implements IRecycleViewItemClickL
     private FragmentManager mFragmentManager;
     private Fragment mFragment;
 
-    private RecyclerView mRecyclerView;
+    private EmptyRecyclerView mRecyclerView;
     private List<BookModel> mData = new ArrayList();
     private List<BookBean> mBooks = new ArrayList<>();
     private BookAdapter mAdapter;
@@ -79,7 +78,9 @@ public class ShopFragment extends BaseFragment implements IRecycleViewItemClickL
         mAddNewBookBtn = (Button) mRootView.findViewById(R.id.btn_add_new_book);
         mAddNewBookBtn.setOnClickListener(click);
 
-        mRecyclerView = (RecyclerView) mRootView.findViewById(R.id.recyclerview);
+        mRecyclerView = (EmptyRecyclerView) mRootView.findViewById(R.id.recyclerview);
+        View empty = mRootView.findViewById(R.id.book_empty);
+        mRecyclerView.setEmptyView(empty);
         mLayoutManager = new LinearLayoutManager(getActivity());
         mAdapter = new BookAdapter(mData, R.layout.item_book);
 

@@ -43,10 +43,6 @@ public class SplashActivity extends AppCompatActivity {
         mIsShopPresenter = new IsShopPresenter();
         mQueryAuditStatePresenter = new QueryAuditStatePresenter(queryAuditStateHanler);
 
-        UserBean currentUser = BmobUser.getCurrentUser(SplashActivity.this, UserBean.class);
-        if (currentUser != null) {
-            mQueryAuditStatePresenter.queryAuditState(SplashActivity.this, currentUser);
-        }
         //删除上传文件时生成的临时文件
         new Thread() {
             public void run() {
@@ -66,19 +62,18 @@ public class SplashActivity extends AppCompatActivity {
 
             if (!mIsLoginPresenter.isLogin(SplashActivity.this)) {
                 intent = new Intent(SplashActivity.this, LoginAndRegisterActivity.class);
+                startActivity(intent);
+                finish();
             } else if (!mIsShopPresenter.isShop(BmobUser.getCurrentUser(SplashActivity.this, UserBean.class))) {
                 intent = new Intent(SplashActivity.this, ApplyForShopActivity.class);
-            } else if ((auditState != -1 && auditState != Constant.AUDIT_STATE1)) {
-                intent = new Intent(SplashActivity.this, AuditActivity.class);
-                intent.putExtra(Constant.AUDIT_STATE, auditState);
-            } else if (auditState == -1 && (auditState = mQueryAuditStatePresenter.queryAuditState(BmobUser.getCurrentUser(SplashActivity.this, UserBean.class))) != Constant.AUDIT_STATE1) {
-                intent = new Intent(SplashActivity.this, AuditActivity.class);
-                intent.putExtra(Constant.AUDIT_STATE, auditState);
+                startActivity(intent);
+                finish();
             } else {
-                intent = new Intent(SplashActivity.this, MainActivity.class);
+                UserBean currentUser = BmobUser.getCurrentUser(SplashActivity.this, UserBean.class);
+                if (currentUser != null) {
+                    mQueryAuditStatePresenter.queryAuditState(SplashActivity.this, currentUser);
+                }
             }
-            startActivity(intent);
-            finish();
         }
     }
 
@@ -87,12 +82,27 @@ public class SplashActivity extends AppCompatActivity {
             switch (msg.what) {
                 case Constant.SUCCESS:
                     auditState = msg.getData().getInt(Constant.AUDIT_STATE);
+                    Intent intent = null;
+                    if ((auditState != -1 && auditState != Constant.AUDIT_STATE1)) {
+                        intent = new Intent(SplashActivity.this, AuditActivity.class);
+                        intent.putExtra(Constant.AUDIT_STATE, auditState);
+                    } else if (auditState == -1 && (auditState = mQueryAuditStatePresenter.queryAuditState(BmobUser.getCurrentUser(SplashActivity.this, UserBean.class))) != Constant.AUDIT_STATE1) {
+                        intent = new Intent(SplashActivity.this, AuditActivity.class);
+                        intent.putExtra(Constant.AUDIT_STATE, auditState);
+                    } else {
+                        intent = new Intent(SplashActivity.this, MainActivity.class);
+                    }
+                    startActivity(intent);
+                    finish();
                     break;
             }
         }
 
         public void handleFailureMessage(String msg) {
             Toast.makeText(SplashActivity.this, msg, Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(SplashActivity.this, LoginAndRegisterActivity.class);
+            startActivity(intent);
+            finish();
         }
     };
 }
