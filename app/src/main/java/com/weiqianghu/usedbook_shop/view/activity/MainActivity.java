@@ -14,6 +14,7 @@ import com.weiqianghu.usedbook_shop.model.entity.SerializableHandler;
 import com.weiqianghu.usedbook_shop.util.Constant;
 import com.weiqianghu.usedbook_shop.util.FragmentUtil;
 import com.weiqianghu.usedbook_shop.view.fragment.MainFragment;
+import com.weiqianghu.usedbook_shop.view.fragment.SeetingsFragment;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -34,14 +35,14 @@ public class MainActivity extends AppCompatActivity {
         if (mFragmentManager == null) {
             mFragmentManager = getSupportFragmentManager();
         }
-        mFragment=mFragmentManager.findFragmentByTag(MainFragment.TAG);
-        if(mFragment==null){
-            mFragment=new MainFragment(toolBarHandler);
+        mFragment = mFragmentManager.findFragmentByTag(MainFragment.TAG);
+        if (mFragment == null) {
+            mFragment = new MainFragment(toolBarHandler);
         }
-        FragmentUtil.addContentNoAnimation(R.id.main_container,mFragment,mFragmentManager,MainFragment.TAG );
+        FragmentUtil.addContentNoAnimation(R.id.main_container, mFragment, mFragmentManager, MainFragment.TAG);
 
-        mToolbar= (Toolbar) findViewById(R.id.center_toolbar);
-        if(mToolbar!=null) {
+        mToolbar = (Toolbar) findViewById(R.id.center_toolbar);
+        if (mToolbar != null) {
             mToolbar.setTitle(R.string.main_page);
             mToolbar.inflateMenu(R.menu.main);
             mToolbar.setOnMenuItemClickListener(onMenuItemClick);
@@ -60,19 +61,31 @@ public class MainActivity extends AppCompatActivity {
                     msg += "ab_search";
                     break;
                 case R.id.action_settings:
-                    msg += "action_settings";
+                    gotoSettings();
                     break;
                 case R.id.action_about:
                     msg += "action_about";
                     break;
             }
 
-            if(!msg.equals("")) {
+            if (!msg.equals("")) {
                 Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
             }
             return true;
         }
     };
+
+    private void gotoSettings() {
+        if (mFragmentManager == null) {
+            mFragmentManager = getSupportFragmentManager();
+        }
+        mFragment = mFragmentManager.findFragmentByTag(SeetingsFragment.TAG);
+        if (mFragment == null) {
+            mFragment = new SeetingsFragment();
+        }
+        Fragment from = mFragmentManager.findFragmentByTag(MainFragment.TAG);
+        FragmentUtil.switchContentAddToBackStack(from, mFragment, R.id.main_container, mFragmentManager, SeetingsFragment.TAG);
+    }
 
 
     private SerializableHandler toolBarHandler = new SerializableHandler() {
