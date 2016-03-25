@@ -112,7 +112,6 @@ public class ProvinceAddressFragment extends BaseFragment {
 
     private List<ProvinceModel> getProvincesByJSON(){
         List<ProvinceModel> provinceModelList;
-        ProvinceModel province=new ProvinceModel();
         Gson g=new Gson();
         Type lt=new TypeToken<List<ProvinceModel>>(){}.getType();
 

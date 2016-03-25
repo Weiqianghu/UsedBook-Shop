@@ -9,6 +9,7 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_LOGS" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
         android:allowBackup="true"
@@ -35,7 +36,22 @@
         <activity
             android:name="me.nereo.multi_image_selector.MultiImageSelectorActivity"
             android:theme="@style/BaseAppTheme" />
-        <activity android:name=".view.activity.AuditActivity"></activity>
+        <activity android:name=".view.activity.AuditActivity" />
+
+        <service
+            android:name=".view.service.OrderRealTimeService"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter android:priority="1000" >
+                <action android:name=".view.service.OrderRealTimeService" />
+            </intent-filter>
+        </service>
     </application>
+
+    <receiver android:name=".BootBroadcastReceiver">
+        <intent-filter android:priority="1000">
+            <action android:name="android.intent.action.BOOT_COMPLETED" />
+        </intent-filter>
+    </receiver>
 
 </manifest>

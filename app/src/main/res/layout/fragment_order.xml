@@ -1,18 +1,30 @@
-<android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/id_swiperefreshlayout"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+    android:orientation="vertical">
 
-    <!--
-            使用RecyclerView需要在build.gradle中添加
-           compile 'com.android.support:recyclerview-v7:22.2.0'
-    -->
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/id_recyclerview"
+    <include layout="@layout/empty"></include>
+
+    <android.support.v4.widget.SwipeRefreshLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/swiperefreshlayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
+        <com.weiqianghu.usedbook_shop.view.customview.EmptyRecyclerView
+            android:id="@+id/recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </android.support.v4.widget.SwipeRefreshLayout>
 
-</android.support.v4.widget.SwipeRefreshLayout>
+    <Button
+        android:id="@+id/btn_add_new_book"
+        style="@style/common_text_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/btn_background"
+        android:text="@string/goto_other_order"
+        android:textColor="@color/white" />
+
+</LinearLayout>

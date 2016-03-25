@@ -18,6 +18,8 @@ import com.weiqianghu.usedbook_shop.util.CallBackHandler;
 import com.weiqianghu.usedbook_shop.util.Constant;
 import com.weiqianghu.usedbook_shop.util.FileUtil;
 import com.weiqianghu.usedbook_shop.util.ImgUtil;
+import com.weiqianghu.usedbook_shop.util.ServiceUtil;
+import com.weiqianghu.usedbook_shop.view.service.OrderRealTimeService;
 
 import java.io.File;
 
@@ -49,6 +51,11 @@ public class SplashActivity extends AppCompatActivity {
                 ImgUtil.deleteAllTempFiles(new File(FileUtil.getCachePath() + "/tempImg/"));
             }
         }.start();
+
+        if (!ServiceUtil.isServiceRunning(SplashActivity.this, "com.weiqianghu.usedbook_shop.view.service.OrderRealTimeService")) {
+            Intent serviceIntent = new Intent(this, OrderRealTimeService.class);
+            startService(serviceIntent);
+        }
 
         Handler x = new Handler();
         x.postDelayed(new splashHandler(), 3000);

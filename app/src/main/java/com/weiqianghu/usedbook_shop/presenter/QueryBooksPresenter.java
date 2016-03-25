@@ -19,6 +19,7 @@ import java.util.List;
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.listener.FindListener;
+import cn.bmob.v3.listener.GetListener;
 
 /**
  * Created by weiqianghu on 2016/3/12.
@@ -58,5 +59,27 @@ public class QueryBooksPresenter extends CommonPresenter {
         query.setSkip(start);
         query.order("-createdAt");
         mQueryModel.query(context, query, findListener);
+    }
+
+
+    public void queryBooks(Context context, String bookObjectId) {
+        GetListener<BookBean> getListener = new GetListener<BookBean>() {
+
+            @Override
+            public void onFailure(int i, String s) {
+                handleFailureMessage(i, s);
+            }
+
+            @Override
+            public void onSuccess(BookBean bookBean) {
+                Bundle bundle = new Bundle();
+                bundle.putParcelable(Constant.DATA, bookBean);
+                handleSuccess(bundle);
+            }
+        };
+
+        BmobQuery<BookBean> query = new BmobQuery<>();
+        query.include("shop");
+        mQueryModel.query(context, query, getListener, bookObjectId);
     }
 }

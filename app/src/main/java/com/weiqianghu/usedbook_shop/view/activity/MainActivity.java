@@ -1,5 +1,9 @@
 package com.weiqianghu.usedbook_shop.view.activity;
 
+import android.app.NotificationManager;
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -13,15 +17,17 @@ import com.weiqianghu.usedbook_shop.R;
 import com.weiqianghu.usedbook_shop.model.entity.SerializableHandler;
 import com.weiqianghu.usedbook_shop.util.Constant;
 import com.weiqianghu.usedbook_shop.util.FragmentUtil;
+import com.weiqianghu.usedbook_shop.util.ServiceUtil;
 import com.weiqianghu.usedbook_shop.view.fragment.MainFragment;
 import com.weiqianghu.usedbook_shop.view.fragment.SeetingsFragment;
-
+import com.weiqianghu.usedbook_shop.view.service.OrderRealTimeService;
 
 public class MainActivity extends AppCompatActivity {
     private FragmentManager mFragmentManager;
     private Fragment mFragment;
 
     private Toolbar mToolbar;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
