@@ -19,6 +19,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".view.activity.MainActivity"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
             android:name=".view.activity.SplashActivity"
@@ -42,7 +43,7 @@
             android:name=".view.service.OrderRealTimeService"
             android:enabled="true"
             android:exported="true">
-            <intent-filter android:priority="1000" >
+            <intent-filter android:priority="1000">
                 <action android:name=".view.service.OrderRealTimeService" />
             </intent-filter>
         </service>

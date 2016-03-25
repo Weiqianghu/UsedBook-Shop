@@ -7,6 +7,7 @@ import android.os.Parcelable;
 
 import com.weiqianghu.usedbook_shop.model.entity.BookBean;
 import com.weiqianghu.usedbook_shop.model.entity.BookImgsBean;
+import com.weiqianghu.usedbook_shop.model.entity.OrderBean;
 import com.weiqianghu.usedbook_shop.model.impl.QueryModel;
 import com.weiqianghu.usedbook_shop.model.inf.IQueryModel;
 import com.weiqianghu.usedbook_shop.util.Constant;
@@ -46,6 +47,27 @@ public class QueryBookImgsPresenter extends CommonPresenter {
 
         BmobQuery<BookImgsBean> query = new BmobQuery<>();
         query.addWhereEqualTo("book", bookBean);
+        mQueryModel.query(context, query, findListener);
+    }
+
+    public void queryBookImgs(Context context, final OrderBean orderBean) {
+        FindListener<BookImgsBean> findListener = new FindListener<BookImgsBean>() {
+            @Override
+            public void onSuccess(List list) {
+                Bundle bundle = new Bundle();
+                bundle.putParcelableArrayList(Constant.LIST, (ArrayList<? extends Parcelable>) list);
+                bundle.putParcelable(Constant.BOOK, orderBean);
+                handleSuccess(bundle);
+            }
+
+            @Override
+            public void onError(int i, String s) {
+                handleFailureMessage(i, s);
+            }
+        };
+
+        BmobQuery<BookImgsBean> query = new BmobQuery<>();
+        query.addWhereEqualTo("book", orderBean.getBook());
         mQueryModel.query(context, query, findListener);
     }
 

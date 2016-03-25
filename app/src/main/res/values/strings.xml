@@ -74,4 +74,5 @@
     <string name="book_empty">书架空空如也，快去上架新书吧</string>
     <string name="order_empty">暂时没有未处理的订单</string>
     <string name="goto_other_order">去查看所有订单</string>
+    <string name="pay">待付款</string>
 </resources>
