@@ -2,7 +2,6 @@ package com.weiqianghu.usedbook_shop.view.fragment;
 
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.Message;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -10,14 +9,12 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
-import android.support.v7.widget.Toolbar;
 
 import com.weiqianghu.usedbook_shop.R;
 import com.weiqianghu.usedbook_shop.model.entity.SerializableHandler;
-import com.weiqianghu.usedbook_shop.presenter.adapter.MainPagerAdapter;
+import com.weiqianghu.usedbook_shop.presenter.adapter.FragmentViewPagerAdapter;
 import com.weiqianghu.usedbook_shop.util.Constant;
 import com.weiqianghu.usedbook_shop.view.common.BaseFragment;
 
@@ -31,7 +28,7 @@ public class MainFragment extends BaseFragment {
     private ViewPager mViewPager;
 
     private List<Fragment> mViews = new ArrayList<>();
-    private MainPagerAdapter mPagerAdapter;
+    private FragmentViewPagerAdapter mPagerAdapter;
 
     private FragmentManager mFragmentManager;
 
@@ -77,7 +74,7 @@ public class MainFragment extends BaseFragment {
                 getActivity().getString(R.string.order), getActivity().getString(R.string.mine)};
 
         mFragmentManager = getChildFragmentManager();
-        mPagerAdapter = new MainPagerAdapter(mFragmentManager, mViews, mTitles);
+        mPagerAdapter = new FragmentViewPagerAdapter(mFragmentManager, mViews, mTitles);
 
         mViewPager.setAdapter(mPagerAdapter);
         mTabLayout.setupWithViewPager(mViewPager);

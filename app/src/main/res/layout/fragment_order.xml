@@ -19,7 +19,7 @@
     </android.support.v4.widget.SwipeRefreshLayout>
 
     <Button
-        android:id="@+id/btn_add_new_book"
+        android:id="@+id/btn_goto_order_list"
         style="@style/common_text_style"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

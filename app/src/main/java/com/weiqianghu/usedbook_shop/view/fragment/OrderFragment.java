@@ -4,25 +4,25 @@ package com.weiqianghu.usedbook_shop.view.fragment;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.weiqianghu.usedbook_shop.R;
-import com.weiqianghu.usedbook_shop.model.entity.BookBean;
-import com.weiqianghu.usedbook_shop.model.entity.BookModel;
 import com.weiqianghu.usedbook_shop.model.entity.OrderBean;
 import com.weiqianghu.usedbook_shop.model.entity.OrderModel;
 import com.weiqianghu.usedbook_shop.presenter.QueryBookImgsPresenter;
 import com.weiqianghu.usedbook_shop.presenter.QueryOrderPresenter;
-import com.weiqianghu.usedbook_shop.presenter.adapter.BookAdapter;
 import com.weiqianghu.usedbook_shop.presenter.adapter.OrderAdapter;
 import com.weiqianghu.usedbook_shop.util.CallBackHandler;
 import com.weiqianghu.usedbook_shop.util.Constant;
+import com.weiqianghu.usedbook_shop.util.FragmentUtil;
 import com.weiqianghu.usedbook_shop.view.common.BaseFragment;
 import com.weiqianghu.usedbook_shop.view.customview.EmptyRecyclerView;
 import com.weiqianghu.usedbook_shop.view.view.IRecycleViewItemClickListener;
@@ -51,6 +51,10 @@ public class OrderFragment extends BaseFragment implements IRecycleViewItemClick
     private boolean isRefresh = false;
     private int count = 0;
     private static final int STEP = 15;
+
+    private FragmentManager mFragmentManager;
+
+    private Button mGotoOrderListBtn;
 
     @Override
     protected int getLayoutId() {
@@ -95,6 +99,14 @@ public class OrderFragment extends BaseFragment implements IRecycleViewItemClick
         mQueryBookImgsPresenter = new QueryBookImgsPresenter(queryBookImgsHandler);
 
         initData();
+
+        mGotoOrderListBtn = (Button) mRootView.findViewById(R.id.btn_goto_order_list);
+        mGotoOrderListBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                gotoOrderList();
+            }
+        });
     }
 
 
@@ -122,7 +134,22 @@ public class OrderFragment extends BaseFragment implements IRecycleViewItemClick
 
     @Override
     public void onItemClick(View view, int postion) {
+        gotoProcessOrderFragment(postion);
+    }
 
+    private void gotoProcessOrderFragment(int postion) {
+        if (mFragmentManager == null) {
+            mFragmentManager = getActivity().getSupportFragmentManager();
+        }
+        Fragment mFragment = mFragmentManager.findFragmentByTag(ProcessOrderFragment.TAG);
+        if (mFragment == null) {
+            mFragment = new ProcessOrderFragment();
+        }
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(Constant.DATA, mData.get(postion));
+        mFragment.setArguments(bundle);
+        Fragment from = mFragmentManager.findFragmentByTag(MainFragment.TAG);
+        FragmentUtil.switchContentAddToBackStack(from, mFragment, R.id.main_container, mFragmentManager, ProcessOrderFragment.TAG);
     }
 
     RecyclerView.OnScrollListener onScrollListener = new RecyclerView.OnScrollListener() {
@@ -165,6 +192,7 @@ public class OrderFragment extends BaseFragment implements IRecycleViewItemClick
                         mSwipeRefreshLayout.setRefreshing(false);
                     }
             }
+
         }
 
         @Override
@@ -203,4 +231,16 @@ public class OrderFragment extends BaseFragment implements IRecycleViewItemClick
             mSwipeRefreshLayout.setRefreshing(false);
         }
     };
+
+    private void gotoOrderList() {
+        if (mFragmentManager == null) {
+            mFragmentManager = getActivity().getSupportFragmentManager();
+        }
+        Fragment mFragment = mFragmentManager.findFragmentByTag(OrderListFragment.TAG);
+        if (mFragment == null) {
+            mFragment = new OrderListFragment();
+        }
+        Fragment form = mFragmentManager.findFragmentByTag(MainFragment.TAG);
+        FragmentUtil.switchContentAddToBackStack(form, mFragment, R.id.main_container, mFragmentManager, OrderListFragment.TAG);
+    }
 }

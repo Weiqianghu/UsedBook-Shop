@@ -75,4 +75,11 @@
     <string name="order_empty">暂时没有未处理的订单</string>
     <string name="goto_other_order">去查看所有订单</string>
     <string name="pay">待付款</string>
+    <string name="book">书</string>
+    <string name="customer">顾客</string>
+    <string name="shipped">确认发货</string>
+    <string name="deliver">待发货</string>
+    <string name="express">配送中</string>
+    <string name="evaluate">待评价</string>
+    <string name="finish">已完成</string>
 </resources>
