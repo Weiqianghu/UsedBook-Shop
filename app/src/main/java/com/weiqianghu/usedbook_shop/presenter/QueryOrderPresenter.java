@@ -32,7 +32,7 @@ public class QueryOrderPresenter extends CommonPresenter {
     }
 
 
-    public void queryOrders(final Context context, int start, int step,String orderState) {
+    public void queryOrders(final Context context, int start, int step, String orderState) {
         FindListener<OrderBean> findListener = new FindListener<OrderBean>() {
             @Override
             public void onSuccess(List list) {
@@ -59,7 +59,7 @@ public class QueryOrderPresenter extends CommonPresenter {
         query.include("book");
         query.setLimit(step);
         query.setSkip(start);
-        query.order("createdAt");
+        query.order("-updatedAt");
         mQueryModel.query(context, query, findListener);
     }
 }

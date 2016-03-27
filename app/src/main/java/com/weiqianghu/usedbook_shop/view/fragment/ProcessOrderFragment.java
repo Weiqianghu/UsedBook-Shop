@@ -121,6 +121,7 @@ public class ProcessOrderFragment extends BaseFragment implements IUpdateView {
             mOrderStateTv.setText(OrderStateUtil.getStrByOrderState(mOrderBean.getOrderState()));
             mBookPriceTv.setText(String.valueOf(book.getPrice() + "￥"));
             mAmountTv.setText(String.valueOf("X" + mOrderBean.getAmount()));
+            mPercentDescribeTv.setText(book.getPercentDescribe());
         }
 
         mUserNameTv = (TextView) mRootView.findViewById(R.id.tv_user_name);
