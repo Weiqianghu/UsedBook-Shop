@@ -2,6 +2,7 @@ package com.weiqianghu.usedbook_shop.view.fragment;
 
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -64,7 +65,10 @@ public class OrderFinishFragment extends BaseFragment implements IRecycleViewIte
 
     @Override
     protected void afterCreate(Bundle savedInstanceState) {
-        initView(savedInstanceState);
+        if (isFirstIn) {
+            initView(savedInstanceState);
+            isFirstIn = false;
+        }
     }
 
     @Override
@@ -100,7 +104,13 @@ public class OrderFinishFragment extends BaseFragment implements IRecycleViewIte
         mQueryOrderPresenter = new QueryOrderPresenter(queryOrdersHandler);
         mQueryBookImgsPresenter = new QueryBookImgsPresenter(queryBookImgsHandler);
 
-        initData();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                initData();
+            }
+        }, 500);
+
     }
 
     private void initData() {
