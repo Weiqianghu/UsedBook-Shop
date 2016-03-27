@@ -82,5 +82,5 @@
     <string name="express">配送中</string>
     <string name="evaluate">待评价</string>
     <string name="finish">已完成</string>
-    <string name="this_order_pay">您暂时没有相关订单</string>
+    <string name="this_order_empty">您暂时没有相关订单</string>
 </resources>

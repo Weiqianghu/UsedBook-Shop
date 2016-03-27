@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.drawee.backends.pipeline.Fresco;
 import com.weiqianghu.usedbook_shop.R;
 import com.weiqianghu.usedbook_shop.model.entity.OrderBean;
 import com.weiqianghu.usedbook_shop.model.entity.OrderModel;
@@ -59,6 +60,7 @@ public class OrderPayFragment extends BaseFragment implements IRecycleViewItemCl
 
     @Override
     protected int getLayoutId() {
+        Fresco.initialize(getActivity());
         return R.layout.fragment_order_pay;
     }
 
@@ -73,7 +75,7 @@ public class OrderPayFragment extends BaseFragment implements IRecycleViewItemCl
     @Override
     protected void initView(Bundle savedInstanceState) {
         mEmptyTv = (TextView) mRootView.findViewById(R.id.tv_empty);
-        mEmptyTv.setText(R.string.this_order_pay);
+        mEmptyTv.setText(R.string.this_order_empty);
 
         mRecyclerView = (EmptyRecyclerView) mRootView.findViewById(R.id.recyclerview);
         View empty = mRootView.findViewById(R.id.book_empty);

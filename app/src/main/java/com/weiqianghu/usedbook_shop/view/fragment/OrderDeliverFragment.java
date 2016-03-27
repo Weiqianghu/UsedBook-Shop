@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.drawee.backends.pipeline.Fresco;
 import com.weiqianghu.usedbook_shop.R;
 import com.weiqianghu.usedbook_shop.model.entity.OrderBean;
 import com.weiqianghu.usedbook_shop.model.entity.OrderModel;
@@ -61,6 +62,7 @@ public class OrderDeliverFragment extends BaseFragment implements IRecycleViewIt
 
     @Override
     protected int getLayoutId() {
+        Fresco.initialize(getActivity());
         return R.layout.fragment_order_deliver;
     }
 
