@@ -2,63 +2,33 @@ package com.weiqianghu.usedbook_shop.view.fragment;
 
 
 import android.os.Bundle;
-import android.os.Message;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.support.v4.view.ViewPager;
+import android.util.Log;
 
 import com.weiqianghu.usedbook_shop.R;
-import com.weiqianghu.usedbook_shop.model.entity.OrderBean;
-import com.weiqianghu.usedbook_shop.model.entity.OrderModel;
-import com.weiqianghu.usedbook_shop.presenter.QueryBookImgsPresenter;
-import com.weiqianghu.usedbook_shop.presenter.QueryOrderPresenter;
-import com.weiqianghu.usedbook_shop.presenter.adapter.OrderAdapter;
-import com.weiqianghu.usedbook_shop.util.CallBackHandler;
-import com.weiqianghu.usedbook_shop.util.Constant;
-import com.weiqianghu.usedbook_shop.util.FragmentUtil;
+import com.weiqianghu.usedbook_shop.presenter.adapter.FragmentViewPagerAdapter;
 import com.weiqianghu.usedbook_shop.view.common.BaseFragment;
-import com.weiqianghu.usedbook_shop.view.customview.EmptyRecyclerView;
-import com.weiqianghu.usedbook_shop.view.view.IRecycleViewItemClickListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * A simple {@link Fragment} subclass.
- */
-public class OrderFragment extends BaseFragment implements IRecycleViewItemClickListener {
+public class OrderFragment extends BaseFragment {
+
     public static final String TAG = OrderFragment.class.getSimpleName();
 
-    private TextView mEmptyTv;
+    private TabLayout mTabLayout;
+    private ViewPager mViewPager;
 
-    private List<OrderModel> mData = new ArrayList();
-    private List<OrderBean> mOrders = new ArrayList<>();
-    private EmptyRecyclerView mRecyclerView;
-    private OrderAdapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
-    private SwipeRefreshLayout mSwipeRefreshLayout;
-
-    private QueryOrderPresenter mQueryOrderPresenter;
-    private QueryBookImgsPresenter mQueryBookImgsPresenter;
-
-    private boolean isRefresh = false;
-    private int count = 0;
-    private static final int STEP = 15;
-
+    private List<Fragment> mViews = new ArrayList<>();
+    private FragmentViewPagerAdapter mPagerAdapter;
     private FragmentManager mFragmentManager;
-
-    private Button mGotoOrderListBtn;
 
     @Override
     protected int getLayoutId() {
-        return R.layout.fragment_order;
+        return R.layout.fragment_order_list;
     }
 
     @Override
@@ -68,179 +38,48 @@ public class OrderFragment extends BaseFragment implements IRecycleViewItemClick
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-        mEmptyTv = (TextView) mRootView.findViewById(R.id.tv_empty);
-        mEmptyTv.setText(R.string.order_empty);
+        mTabLayout = (TabLayout) mRootView.findViewById(R.id.tablayout);
+        mViewPager = (ViewPager) mRootView.findViewById(R.id.viewpager);
 
-        mRecyclerView = (EmptyRecyclerView) mRootView.findViewById(R.id.recyclerview);
-        View empty = mRootView.findViewById(R.id.book_empty);
-        mRecyclerView.setEmptyView(empty);
-        mLayoutManager = new LinearLayoutManager(getActivity());
-        mAdapter = new OrderAdapter(mData, R.layout.item_order);
+        Fragment mOrderPayFragment = new OrderPayFragment();
+        Fragment mOrderDeliverFragment = new OrderDeliverFragment();
+        Fragment mOrderExpressFragment = new OrderExpressFragment();
+        Fragment mOrderEvaluateFragment = new OrderEvaluateFragment();
+        Fragment mOrderFinishFragment = new OrderFinishFragment();
 
-        mRecyclerView.setLayoutManager(mLayoutManager);
-        mRecyclerView.setHasFixedSize(true);
-        mRecyclerView.setAdapter(mAdapter);
-        mAdapter.setOnItemClickListener(this);
-        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        mRecyclerView.setOnScrollListener(onScrollListener);
+        mViews.add(mOrderPayFragment);
+        mViews.add(mOrderDeliverFragment);
+        mViews.add(mOrderExpressFragment);
+        mViews.add(mOrderEvaluateFragment);
+        mViews.add(mOrderFinishFragment);
 
-        mSwipeRefreshLayout = (SwipeRefreshLayout) mRootView.findViewById(R.id.swiperefreshlayout);
-        mSwipeRefreshLayout.setColorSchemeResources(R.color.mainColor);
-        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+        String[] mTitles = {getActivity().getString(R.string.pay),
+                getActivity().getString(R.string.deliver), getActivity().getString(R.string.express)
+                , getActivity().getString(R.string.evaluate), getActivity().getString(R.string.finish)};
+
+
+        mFragmentManager = getChildFragmentManager();
+        mPagerAdapter = new FragmentViewPagerAdapter(mFragmentManager, mViews, mTitles);
+
+        mViewPager.setAdapter(mPagerAdapter);
+        mTabLayout.setupWithViewPager(mViewPager);
+        mTabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
-            public void onRefresh() {
-                count = 0;
-                isRefresh = true;
-                queryData(count * STEP, STEP);
+            public void onTabSelected(TabLayout.Tab tab) {
+                mViewPager.setCurrentItem(tab.getPosition());
             }
-        });
 
-        mQueryOrderPresenter = new QueryOrderPresenter(queryOrdersHandler);
-        mQueryBookImgsPresenter = new QueryBookImgsPresenter(queryBookImgsHandler);
-
-        initData();
-
-        mGotoOrderListBtn = (Button) mRootView.findViewById(R.id.btn_goto_order_list);
-        mGotoOrderListBtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                gotoOrderList();
+            public void onTabUnselected(TabLayout.Tab tab) {
+                Log.d("TabSelectedListener", "onTabUnselected");
             }
-        });
-    }
 
-
-    private void initData() {
-        isRefresh = true;
-        count = 0;
-        mSwipeRefreshLayout.post(new Runnable() {
             @Override
-            public void run() {
-                mSwipeRefreshLayout.setRefreshing(true);
-                queryData(count * STEP, STEP);
+            public void onTabReselected(TabLayout.Tab tab) {
+                Log.d("TabSelectedListener", "onTabReselected");
             }
         });
 
     }
 
-    private void queryData(int start, int step) {
-        mQueryOrderPresenter.queryOrders(getActivity(), start, step);
-    }
-
-    private void loadMore() {
-        count++;
-        queryData(count * STEP, STEP);
-    }
-
-    @Override
-    public void onItemClick(View view, int postion) {
-        gotoProcessOrderFragment(postion);
-    }
-
-    private void gotoProcessOrderFragment(int postion) {
-        if (mFragmentManager == null) {
-            mFragmentManager = getActivity().getSupportFragmentManager();
-        }
-        Fragment mFragment = mFragmentManager.findFragmentByTag(ProcessOrderFragment.TAG);
-        if (mFragment == null) {
-            mFragment = new ProcessOrderFragment();
-        }
-        Bundle bundle = new Bundle();
-        bundle.putParcelable(Constant.DATA, mData.get(postion));
-        mFragment.setArguments(bundle);
-        Fragment from = mFragmentManager.findFragmentByTag(MainFragment.TAG);
-        FragmentUtil.switchContentAddToBackStack(from, mFragment, R.id.main_container, mFragmentManager, ProcessOrderFragment.TAG);
-    }
-
-    RecyclerView.OnScrollListener onScrollListener = new RecyclerView.OnScrollListener() {
-
-        private int totalItemCount;
-        private int lastVisibleItem;
-
-        @Override
-        public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-            super.onScrollStateChanged(recyclerView, newState);
-
-            if (lastVisibleItem >= totalItemCount - 1) {
-                loadMore();
-            }
-        }
-
-        @Override
-        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-            super.onScrolled(recyclerView, dx, dy);
-            lastVisibleItem = ((LinearLayoutManager) mLayoutManager).findLastVisibleItemPosition();
-            totalItemCount = mLayoutManager.getItemCount();
-        }
-    };
-
-
-    CallBackHandler queryOrdersHandler = new CallBackHandler() {
-        @Override
-        public void handleSuccessMessage(Message msg) {
-            switch (msg.what) {
-                case Constant.SUCCESS:
-                    Bundle bundle = msg.getData();
-                    List list = bundle.getParcelableArrayList(Constant.LIST);
-                    if (list != null && list.size() > 0) {
-                        mOrders.clear();
-                        mOrders.addAll(list);
-                        for (int i = 0, length = mOrders.size(); i < length; i++) {
-                            mQueryBookImgsPresenter.queryBookImgs(getActivity(), (OrderBean) list.get(i));
-                        }
-                    } else {
-                        mSwipeRefreshLayout.setRefreshing(false);
-                    }
-            }
-
-        }
-
-        @Override
-        public void handleFailureMessage(String msg) {
-            Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
-            mSwipeRefreshLayout.setRefreshing(false);
-        }
-    };
-
-    CallBackHandler queryBookImgsHandler = new CallBackHandler() {
-        @Override
-        public void handleSuccessMessage(Message msg) {
-            switch (msg.what) {
-                case Constant.SUCCESS:
-                    Bundle bundle = msg.getData();
-                    List list = bundle.getParcelableArrayList(Constant.LIST);
-                    OrderBean orderBean = bundle.getParcelable(Constant.BOOK);
-
-                    OrderModel orderModel = new OrderModel();
-                    orderModel.setOrderBean(orderBean);
-                    orderModel.setBookImgs(list);
-
-                    if (isRefresh) {
-                        mData.clear();
-                        isRefresh = false;
-                    }
-                    mData.add(orderModel);
-                    mAdapter.notifyDataSetChanged();
-                    mSwipeRefreshLayout.setRefreshing(false);
-            }
-        }
-
-        @Override
-        public void handleFailureMessage(String msg) {
-            Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
-            mSwipeRefreshLayout.setRefreshing(false);
-        }
-    };
-
-    private void gotoOrderList() {
-        if (mFragmentManager == null) {
-            mFragmentManager = getActivity().getSupportFragmentManager();
-        }
-        Fragment mFragment = mFragmentManager.findFragmentByTag(OrderListFragment.TAG);
-        if (mFragment == null) {
-            mFragment = new OrderListFragment();
-        }
-        Fragment form = mFragmentManager.findFragmentByTag(MainFragment.TAG);
-        FragmentUtil.switchContentAddToBackStack(form, mFragment, R.id.main_container, mFragmentManager, OrderListFragment.TAG);
-    }
 }

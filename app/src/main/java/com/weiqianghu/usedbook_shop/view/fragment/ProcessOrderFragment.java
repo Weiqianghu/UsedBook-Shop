@@ -66,6 +66,10 @@ public class ProcessOrderFragment extends BaseFragment implements IUpdateView {
     private QueryAddressPresenter mQueryAddressPresenter;
     private UpdatePresenter<OrderBean> mUpdatePresenter;
 
+    private TextView mTimeTv;
+
+    private boolean isGoneBtn = false;
+
     @Override
     protected int getLayoutId() {
         Fresco.initialize(getActivity());
@@ -83,6 +87,7 @@ public class ProcessOrderFragment extends BaseFragment implements IUpdateView {
         if (bundle != null) {
             mOrderModel = bundle.getParcelable(Constant.DATA);
             mOrderBean = mOrderModel.getOrderBean();
+            isGoneBtn = bundle.getBoolean(Constant.IS_BTN_GONE);
         }
     }
 
@@ -135,6 +140,12 @@ public class ProcessOrderFragment extends BaseFragment implements IUpdateView {
 
         mSubmitBtn = (Button) mRootView.findViewById(R.id.btn_submit);
         mSubmitBtn.setOnClickListener(new Click());
+        if (isGoneBtn) {
+            mSubmitBtn.setVisibility(View.GONE);
+        }
+
+        mTimeTv = (TextView) mRootView.findViewById(R.id.tv_time);
+        mTimeTv.setText(mOrderBean.getCreatedAt().substring(0, 10));
     }
 
     CallBackHandler queryUserHandler = new CallBackHandler() {

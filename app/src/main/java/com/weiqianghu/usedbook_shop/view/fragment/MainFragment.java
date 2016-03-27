@@ -63,7 +63,7 @@ public class MainFragment extends BaseFragment {
         mViewPager = (ViewPager) mRootView.findViewById(R.id.vp_main);
 
         Fragment mShopFragment = new ShopFragment(mToolBarHandler);
-        Fragment mOrderFragment = new OrderFragment();
+        Fragment mOrderFragment = new OrderDeliverFragment();
         Fragment mMineFragment = new MineFragment();
 
         mViews.add(mShopFragment);

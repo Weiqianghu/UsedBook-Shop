@@ -32,7 +32,7 @@ public class QueryOrderPresenter extends CommonPresenter {
     }
 
 
-    public void queryOrders(final Context context, int start, int step) {
+    public void queryOrders(final Context context, int start, int step,String orderState) {
         FindListener<OrderBean> findListener = new FindListener<OrderBean>() {
             @Override
             public void onSuccess(List list) {
@@ -55,7 +55,7 @@ public class QueryOrderPresenter extends CommonPresenter {
 
         BmobQuery<OrderBean> query = new BmobQuery<>();
         query.addWhereEqualTo("shop", shop);
-        query.addWhereEqualTo("orderState", "deliver");
+        query.addWhereEqualTo("orderState", orderState);
         query.include("book");
         query.setLimit(step);
         query.setSkip(start);
