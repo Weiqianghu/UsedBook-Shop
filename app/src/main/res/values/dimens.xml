@@ -12,6 +12,7 @@
     <dimen name="small_text_size">14sp</dimen>
     <dimen name="xsmall_text_size">12sp</dimen>
 
+    <dimen name="xsmall_dp">20dp</dimen>
     <dimen name="small_dp">30dp</dimen>
     <dimen name="middle_dp">40dp</dimen>
     <dimen name="large_dp">50dp</dimen>

@@ -5,6 +5,8 @@ import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Message;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
@@ -25,6 +27,7 @@ import com.weiqianghu.usedbook_shop.presenter.UpdatePresenter;
 import com.weiqianghu.usedbook_shop.presenter.adapter.MViewPagerAdapter;
 import com.weiqianghu.usedbook_shop.util.CallBackHandler;
 import com.weiqianghu.usedbook_shop.util.Constant;
+import com.weiqianghu.usedbook_shop.util.FragmentUtil;
 import com.weiqianghu.usedbook_shop.view.common.BaseFragment;
 import com.weiqianghu.usedbook_shop.view.view.IUpdateView;
 
@@ -38,7 +41,7 @@ public class BookDetailFragment extends BaseFragment implements IUpdateView {
     private Toolbar mToolbar;
     private ViewPager mBookImgVp;
     private TextView mPostionTv;
-    private BookModel bookModel;
+    private BookModel mBookModel;
 
     private TextView mBookNeamTv;
     private TextView mBookIsbnTv;
@@ -59,6 +62,10 @@ public class BookDetailFragment extends BaseFragment implements IUpdateView {
 
     private UpdatePresenter<BookBean> mUpdatePresenter;
 
+    private FragmentManager mFragmentManager;
+
+    private View mComment;
+
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_book_detail;
@@ -73,7 +80,7 @@ public class BookDetailFragment extends BaseFragment implements IUpdateView {
     private void initData() {
         Bundle bundle = getArguments();
         if (bundle != null) {
-            bookModel = bundle.getParcelable(Constant.BOOK);
+            mBookModel = bundle.getParcelable(Constant.BOOK);
         }
     }
 
@@ -101,10 +108,10 @@ public class BookDetailFragment extends BaseFragment implements IUpdateView {
         mEditStockTv = (TextView) mRootView.findViewById(R.id.tv_edit_stock);
 
         mBookIsSellBtn = (Button) mRootView.findViewById(R.id.btn_edit_is_sell);
-
-        if (bookModel != null) {
-            setBookImgs(loadBookImgs(savedInstanceState, bookModel.getBookImgs()));
-            BookBean bookBean = bookModel.getBook();
+        Click click = new Click();
+        if (mBookModel != null) {
+            setBookImgs(loadBookImgs(savedInstanceState, mBookModel.getBookImgs()));
+            BookBean bookBean = mBookModel.getBook();
 
             mBookNeamTv.setText(bookBean.getBookName());
             mBookIsbnTv.setText(bookBean.getIsbn());
@@ -118,7 +125,6 @@ public class BookDetailFragment extends BaseFragment implements IUpdateView {
 
             mBookIsSellBtn.setText(bookBean.isSell() ? R.string.shelves : R.string.added);
 
-            Click click = new Click();
             mEditPriceTv.setOnClickListener(click);
             mEditCategoryTv.setOnClickListener(click);
             mEditPercentDescribeTv.setOnClickListener(click);
@@ -127,6 +133,8 @@ public class BookDetailFragment extends BaseFragment implements IUpdateView {
         }
 
         mUpdatePresenter = new UpdatePresenter<>(this, updateHanler);
+        mComment = mRootView.findViewById(R.id.comment);
+        mComment.setOnClickListener(click);
 
     }
 
@@ -150,6 +158,9 @@ public class BookDetailFragment extends BaseFragment implements IUpdateView {
                 case R.id.btn_edit_is_sell:
                     editBookIsSell();
                     break;
+                case R.id.comment:
+                    gotoCommentList();
+                    break;
 
             }
         }
@@ -171,7 +182,7 @@ public class BookDetailFragment extends BaseFragment implements IUpdateView {
 
     private void editBookPrice() {
 
-        final String price = String.valueOf(bookModel.getBook().getPrice());
+        final String price = String.valueOf(mBookModel.getBook().getPrice());
 
         final EditText temp = new EditText(getActivity());
         temp.setText(price);
@@ -191,12 +202,12 @@ public class BookDetailFragment extends BaseFragment implements IUpdateView {
                     BookBean bookBean = new BookBean();
                     bookBean.setPrice(Double.valueOf(temp.getText().toString().trim()));
 
-                    BookBean book = bookModel.getBook();
+                    BookBean book = mBookModel.getBook();
                     bookBean.setSell(book.isSell());
                     bookBean.setStock(book.getStock());
                     bookBean.setSalesVolume(book.getSalesVolume());
 
-                    mUpdatePresenter.update(getActivity(), bookBean, bookModel.getBook().getObjectId());
+                    mUpdatePresenter.update(getActivity(), bookBean, mBookModel.getBook().getObjectId());
                     mBookPriceTv.setText(temp.getText().toString().trim());
                 }
             }
@@ -205,7 +216,7 @@ public class BookDetailFragment extends BaseFragment implements IUpdateView {
 
     private void editCategory() {
 
-        final String category = String.valueOf(bookModel.getBook().getCategory());
+        final String category = String.valueOf(mBookModel.getBook().getCategory());
 
         final EditText temp = new EditText(getActivity());
         temp.setText(category);
@@ -223,13 +234,13 @@ public class BookDetailFragment extends BaseFragment implements IUpdateView {
                     BookBean bookBean = new BookBean();
                     bookBean.setCategory(temp.getText().toString().trim());
 
-                    BookBean book = bookModel.getBook();
+                    BookBean book = mBookModel.getBook();
                     bookBean.setPrice(book.getPrice());
                     bookBean.setSell(book.isSell());
                     bookBean.setStock(book.getStock());
                     bookBean.setSalesVolume(book.getSalesVolume());
 
-                    mUpdatePresenter.update(getActivity(), bookBean, bookModel.getBook().getObjectId());
+                    mUpdatePresenter.update(getActivity(), bookBean, mBookModel.getBook().getObjectId());
                     mBookCategoryTv.setText(temp.getText().toString().trim());
                 }
             }
@@ -238,7 +249,7 @@ public class BookDetailFragment extends BaseFragment implements IUpdateView {
 
     private void editPercentDescribe() {
 
-        final String percentDescribe = String.valueOf(bookModel.getBook().getPercentDescribe());
+        final String percentDescribe = String.valueOf(mBookModel.getBook().getPercentDescribe());
 
         final EditText temp = new EditText(getActivity());
         temp.setText(percentDescribe);
@@ -256,13 +267,13 @@ public class BookDetailFragment extends BaseFragment implements IUpdateView {
                     BookBean bookBean = new BookBean();
                     bookBean.setPercentDescribe(temp.getText().toString().trim());
 
-                    BookBean book = bookModel.getBook();
+                    BookBean book = mBookModel.getBook();
                     bookBean.setPrice(book.getPrice());
                     bookBean.setSell(book.isSell());
                     bookBean.setStock(book.getStock());
                     bookBean.setSalesVolume(book.getSalesVolume());
 
-                    mUpdatePresenter.update(getActivity(), bookBean, bookModel.getBook().getObjectId());
+                    mUpdatePresenter.update(getActivity(), bookBean, mBookModel.getBook().getObjectId());
                     mBookPercentescribeTv.setText(temp.getText().toString().trim());
                 }
             }
@@ -271,7 +282,7 @@ public class BookDetailFragment extends BaseFragment implements IUpdateView {
 
     private void editBookStock() {
 
-        final String stock = String.valueOf(bookModel.getBook().getStock());
+        final String stock = String.valueOf(mBookModel.getBook().getStock());
 
         final EditText temp = new EditText(getActivity());
         temp.setText(stock);
@@ -290,12 +301,12 @@ public class BookDetailFragment extends BaseFragment implements IUpdateView {
                     BookBean bookBean = new BookBean();
                     bookBean.setStock(Integer.valueOf(temp.getText().toString().trim()));
 
-                    BookBean book = bookModel.getBook();
+                    BookBean book = mBookModel.getBook();
                     bookBean.setPrice(book.getPrice());
                     bookBean.setSell(book.isSell());
                     bookBean.setSalesVolume(book.getSalesVolume());
 
-                    mUpdatePresenter.update(getActivity(), bookBean, bookModel.getBook().getObjectId());
+                    mUpdatePresenter.update(getActivity(), bookBean, mBookModel.getBook().getObjectId());
                     mBookStockTv.setText(temp.getText().toString().trim());
                 }
             }
@@ -303,7 +314,7 @@ public class BookDetailFragment extends BaseFragment implements IUpdateView {
     }
 
     private void editBookIsSell() {
-        String isSell = bookModel.getBook().isSell() ? getResources().getString(R.string.shelves) : getResources().getString(R.string.added);
+        String isSell = mBookModel.getBook().isSell() ? getResources().getString(R.string.shelves) : getResources().getString(R.string.added);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle(isSell);
@@ -313,15 +324,15 @@ public class BookDetailFragment extends BaseFragment implements IUpdateView {
             public void onClick(DialogInterface dialog, int which) {
 
                 BookBean bookBean = new BookBean();
-                bookBean.setSell(!bookModel.getBook().isSell());
+                bookBean.setSell(!mBookModel.getBook().isSell());
 
-                BookBean book = bookModel.getBook();
+                BookBean book = mBookModel.getBook();
                 bookBean.setPrice(book.getPrice());
                 bookBean.setSalesVolume(book.getSalesVolume());
                 bookBean.setStock(book.getStock());
 
-                mUpdatePresenter.update(getActivity(), bookBean, bookModel.getBook().getObjectId());
-                mBookIsSellBtn.setText(bookModel.getBook().isSell() ? R.string.added : R.string.shelves);
+                mUpdatePresenter.update(getActivity(), bookBean, mBookModel.getBook().getObjectId());
+                mBookIsSellBtn.setText(mBookModel.getBook().isSell() ? R.string.added : R.string.shelves);
             }
         }).setNegativeButton("取消", null).show();
     }
@@ -368,7 +379,25 @@ public class BookDetailFragment extends BaseFragment implements IUpdateView {
             img.setImageURI(uri);
             views.add(img);
         }
-
         return views;
+    }
+
+    private void gotoCommentList() {
+        if (mFragmentManager == null) {
+            mFragmentManager = getActivity().getSupportFragmentManager();
+        }
+        Fragment fragment = mFragmentManager.findFragmentByTag(CommentListFragment.TAG);
+        if (fragment == null) {
+            fragment = new CommentListFragment();
+        }
+
+        BookBean book = mBookModel.getBook();
+
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(Constant.DATA, book);
+
+        fragment.setArguments(bundle);
+        Fragment from = mFragmentManager.findFragmentByTag(BookDetailFragment.TAG);
+        FragmentUtil.switchContentAddToBackStack(from, fragment, R.id.main_container, mFragmentManager, CommentListFragment.TAG);
     }
 }

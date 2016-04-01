@@ -83,4 +83,7 @@
     <string name="evaluate">待评价</string>
     <string name="finish">已完成</string>
     <string name="this_order_empty">您暂时没有相关订单</string>
+    <string name="grade">评分：</string>
+    <string name="comment_empty">暂无评论</string>
+    <string name="comment">查看评论</string>
 </resources>

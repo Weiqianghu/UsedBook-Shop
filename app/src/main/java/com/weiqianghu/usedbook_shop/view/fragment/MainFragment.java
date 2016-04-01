@@ -51,9 +51,9 @@ public class MainFragment extends BaseFragment {
     @Override
     protected void afterCreate(Bundle savedInstanceState) {
 
-        if (savedInstanceState != null) {
+       /* if (savedInstanceState != null) {
             mToolBarHandler = (SerializableHandler) savedInstanceState.getSerializable("mToolBarHandler");
-        }
+        }*/
         initView(savedInstanceState);
     }
 

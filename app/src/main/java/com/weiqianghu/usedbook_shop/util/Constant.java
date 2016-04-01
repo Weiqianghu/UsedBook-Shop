@@ -67,4 +67,9 @@ public class Constant {
 
     public static final String DATA = "data";
     public static final java.lang.String IS_BTN_GONE = "is_btn_gone";
+
+    public static final String EXIST = "exist";
+
+    public static final int TRUE = 1;
+    public static final int FALSE = 0;
 }
