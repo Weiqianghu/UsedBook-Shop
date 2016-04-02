@@ -10,17 +10,25 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.weiqianghu.usedbook_shop.R;
 import com.weiqianghu.usedbook_shop.model.entity.SerializableHandler;
+import com.weiqianghu.usedbook_shop.model.entity.UserBean;
+import com.weiqianghu.usedbook_shop.presenter.messagehandler.ChatMessageHandler;
 import com.weiqianghu.usedbook_shop.util.Constant;
 import com.weiqianghu.usedbook_shop.util.FragmentUtil;
 import com.weiqianghu.usedbook_shop.util.ServiceUtil;
 import com.weiqianghu.usedbook_shop.view.fragment.MainFragment;
 import com.weiqianghu.usedbook_shop.view.fragment.SeetingsFragment;
 import com.weiqianghu.usedbook_shop.view.service.OrderRealTimeService;
+
+import cn.bmob.newim.BmobIM;
+import cn.bmob.newim.listener.ConnectListener;
+import cn.bmob.v3.BmobUser;
+import cn.bmob.v3.exception.BmobException;
 
 public class MainActivity extends AppCompatActivity {
     private FragmentManager mFragmentManager;
@@ -33,8 +41,32 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        initBmobIm();
         initView();
+    }
+
+    private void initBmobIm() {
+        BmobIM.init(MainActivity.this);
+        //注册消息接收器
+        BmobIM.registerDefaultMessageHandler(new ChatMessageHandler());
+
+        UserBean user = BmobUser.getCurrentUser(MainActivity.this, UserBean.class);
+        BmobIM.connect(user.getObjectId(), new ConnectListener() {
+            @Override
+            public void done(String uid, BmobException e) {
+                if (e == null) {
+                    Log.i("im", "connect success");
+                } else {
+                    Log.e("im", e.getErrorCode() + "/" + e.getMessage());
+                }
+            }
+        });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        BmobIM.getInstance().disConnect();
     }
 
     private void initView() {
