@@ -39,7 +39,7 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
-        Bmob.initialize(this, "0efc92162139629c26767e7eaf7a4510");
+        //Bmob.initialize(this, "0efc92162139629c26767e7eaf7a4510");
 
         mIsLoginPresenter = new IsLoginPresenter();
         mIsShopPresenter = new IsShopPresenter();

@@ -1,7 +1,17 @@
 package com.weiqianghu.usedbook_shop.presenter.messagehandler;
 
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.support.v7.app.NotificationCompat;
 import android.util.Log;
+
+import com.weiqianghu.usedbook_shop.R;
+import com.weiqianghu.usedbook_shop.view.activity.MainActivity;
 
 import java.util.List;
 import java.util.Map;
@@ -9,11 +19,11 @@ import java.util.logging.Logger;
 
 import cn.bmob.newim.bean.BmobIMMessage;
 import cn.bmob.newim.bean.BmobIMMessageType;
+import cn.bmob.newim.bean.BmobIMUserInfo;
 import cn.bmob.newim.event.MessageEvent;
 import cn.bmob.newim.event.OfflineMessageEvent;
 import cn.bmob.newim.listener.BmobIMMessageHandler;
 import cn.bmob.newim.notification.BmobNotificationManager;
-import cn.bmob.v3.exception.BmobException;
 
 /**
  * Created by weiqianghu on 2016/4/2.
@@ -21,10 +31,10 @@ import cn.bmob.v3.exception.BmobException;
 public class ChatMessageHandler extends BmobIMMessageHandler {
     private Context context;
 
-   /* public ChatMessageHandler(Context context) {
+    public ChatMessageHandler(Context context) {
         this.context = context;
     }
-*/
+
     @Override
     public void onMessageReceive(final MessageEvent event) {
         //当接收到服务器发来的消息时，此方法被调用
@@ -32,24 +42,48 @@ public class ChatMessageHandler extends BmobIMMessageHandler {
         BmobIMMessage msg = event.getMessage();
         Log.d("message", "收到消息:" + msg.getContent());
 
-       /* UserModel.getInstance().updateUserInfo(event, new UpdateCacheListener() {
-            @Override
-            public void done(BmobException e) {
-                BmobIMMessage msg = event.getMessage();
-                //用户自定义的消息类型，其类型值均为0
-                if (BmobIMMessageType.getMessageTypeValue(msg.getMsgType()) == 0) {
-                    //自行处理自定义消息类型
-                    Logger.i(msg.getMsgType() + "," + msg.getContent() + "," + msg.getExtra());
-                } else {//SDK内部内部支持的消息类型
-                    if (BmobNotificationManager.getInstance(context).isShowNotification()) {
-                        //如果需要显示通知栏，可以使用BmobNotificationManager类提供的方法，也可以自己写通知栏显示方法
-                    } else {//直接发送消息事件
-                        Logger.i("当前处于应用内，发送event");
-                        EventBus.getDefault().post(event);
-                    }
-                }
+        if (BmobIMMessageType.getMessageTypeValue(msg.getMsgType()) == 0) {
+
+        } else {//SDK内部内部支持的消息类型
+            if (BmobNotificationManager.getInstance(context).isShowNotification()) {
+                //如果需要显示通知栏，可以使用BmobNotificationManager类提供的方法，也可以自己写通知栏显示方法
+                 Intent pendingIntent = new Intent(context, MainActivity.class);
+
+                BmobIMMessage message = event.getMessage();
+                BmobIMUserInfo info = event.getFromUserInfo();
+                //这里可以是应用图标，也可以将聊天头像转成bitmap
+                Bitmap largetIcon = BitmapFactory.decodeResource(context.getResources(), R.mipmap.logo);
+                BmobNotificationManager.getInstance(context).showNotification(largetIcon, info.getName(), message.getContent(),
+                        "您有一条新消息", pendingIntent);
+
+              /*  BmobIMMessage message = event.getMessage();
+                BmobIMUserInfo info = event.getFromUserInfo();
+
+                NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+                NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context);
+                mBuilder.setContentTitle(info.getName())//设置通知栏标题
+                        .setContentText(message.getContent()) //设置通知栏显示内容
+                        .setTicker("您有一条新消息") //通知首次出现在通知栏，带上升动画效果的
+                        .setWhen(System.currentTimeMillis())//通知产生的时间，会在通知信息里显示，一般是系统获取到的时间
+                        .setSmallIcon(R.mipmap.logo)//设置通知小ICON
+                        .setAutoCancel(true);
+
+                //构建一个Intent
+                Intent intent = new Intent(context, MainActivity.class);
+                //封装一个Intent
+                PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent,
+                        PendingIntent.FLAG_UPDATE_CURRENT);// 设置通知主题的意图
+                mBuilder.setContentIntent(pendingIntent);
+                notificationManager.notify(0, mBuilder.build());*/
+
+
+            } else {//直接发送消息事件
+
+
             }
-        });*/
+        }
+
+
     }
 
     @Override

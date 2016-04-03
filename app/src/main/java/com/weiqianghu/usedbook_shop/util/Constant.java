@@ -72,4 +72,7 @@ public class Constant {
 
     public static final int TRUE = 1;
     public static final int FALSE = 0;
+
+    public static final String MESSAGE_RECEIVE = "message_receive";
+    public static final String MESSAGE_SEND = "message_send";
 }

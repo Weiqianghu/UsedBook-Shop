@@ -6,7 +6,7 @@
     <uses-permission android:name="android.permission.READ_LOGS" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
-    <!--网络权限 -->
+    <!-- 网络权限 -->
     <uses-permission android:name="android.permission.INTERNET" />
     <!-- 监听网络的变化 -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -14,17 +14,18 @@
     <!-- 设备休眠 -->
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <!-- sd卡存储-->
+    <!-- sd卡存储 -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <!--摄像头-->
+    <!-- 摄像头 -->
     <uses-permission android:name="android.permission.CAMERA" />
-    <!--录音-->
+    <!-- 录音 -->
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
-    <!--通知震动-->
+    <!-- 通知震动 -->
     <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
+        android:name=".model.chat_model.BmobIMApplication"
         android:allowBackup="true"
         android:icon="@mipmap/logo"
         android:label="@string/app_name"
@@ -66,8 +67,6 @@
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
-
-
         //聊天配置-----------------------------------------------------
         <meta-data
             android:name="Bmob_APP_KEY"
@@ -88,8 +87,10 @@
         <service android:name="cn.bmob.newim.core.service.ReConnectService" />
         <service android:name="cn.bmob.newim.core.service.HeartBeatService" />
         //-----------------------------------------------------------------------------
-
+        <activity
+            android:name=".view.activity.MessageListActivity"
+            android:launchMode="singleTask"></activity>
+        <activity android:name=".view.activity.ChatActivity"></activity>
     </application>
-
 
 </manifest>

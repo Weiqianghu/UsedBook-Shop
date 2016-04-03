@@ -46,10 +46,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initBmobIm() {
-        BmobIM.init(MainActivity.this);
-        //注册消息接收器
-        BmobIM.registerDefaultMessageHandler(new ChatMessageHandler());
-
         UserBean user = BmobUser.getCurrentUser(MainActivity.this, UserBean.class);
         BmobIM.connect(user.getObjectId(), new ConnectListener() {
             @Override
@@ -61,12 +57,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        BmobIM.getInstance().disConnect();
     }
 
     private void initView() {
@@ -93,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
             String msg = "";
             switch (menuItem.getItemId()) {
                 case R.id.ab_message:
-                    msg += "ab_message";
+                    gotoMessageList();
                     break;
                 case R.id.ab_search:
                     msg += "ab_search";
@@ -112,6 +102,11 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
     };
+
+    private void gotoMessageList() {
+        Intent intent = new Intent(MainActivity.this, MessageListActivity.class);
+        startActivity(intent);
+    }
 
     private void gotoSettings() {
         if (mFragmentManager == null) {

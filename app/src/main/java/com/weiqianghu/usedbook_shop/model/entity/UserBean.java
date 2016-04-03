@@ -3,6 +3,8 @@ package com.weiqianghu.usedbook_shop.model.entity;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.io.Serializable;
+
 import cn.bmob.v3.BmobUser;
 
 /**
