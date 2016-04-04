@@ -12,8 +12,10 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
+import com.readystatesoftware.viewbadger.BadgeView;
 import com.weiqianghu.usedbook_shop.R;
 import com.weiqianghu.usedbook_shop.model.entity.SerializableHandler;
 import com.weiqianghu.usedbook_shop.model.entity.UserBean;
@@ -25,7 +27,15 @@ import com.weiqianghu.usedbook_shop.view.fragment.MainFragment;
 import com.weiqianghu.usedbook_shop.view.fragment.SeetingsFragment;
 import com.weiqianghu.usedbook_shop.view.service.OrderRealTimeService;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
+import java.util.List;
+import java.util.Map;
+
 import cn.bmob.newim.BmobIM;
+import cn.bmob.newim.event.MessageEvent;
+import cn.bmob.newim.event.OfflineMessageEvent;
 import cn.bmob.newim.listener.ConnectListener;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
@@ -35,6 +45,9 @@ public class MainActivity extends AppCompatActivity {
     private Fragment mFragment;
 
     private Toolbar mToolbar;
+
+    private View mMessage;
+    private BadgeView badge;
 
 
     @Override
@@ -75,6 +88,8 @@ public class MainActivity extends AppCompatActivity {
             mToolbar.inflateMenu(R.menu.main);
             mToolbar.setOnMenuItemClickListener(onMenuItemClick);
         }
+
+        mMessage = findViewById(R.id.ab_message);
     }
 
     private Toolbar.OnMenuItemClickListener onMenuItemClick = new Toolbar.OnMenuItemClickListener() {
@@ -142,4 +157,31 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     };
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onStop() {
+        EventBus.getDefault().unregister(this);
+        super.onStop();
+    }
+
+    @Subscribe
+    public void onEventMainThread(OfflineMessageEvent event) {
+        int offLineMessageCount = 0;
+        Map<String, List<MessageEvent>> map = event.getEventMap();
+        for (Map.Entry<String, List<MessageEvent>> entry : map.entrySet()) {
+            List<MessageEvent> list = entry.getValue();
+            offLineMessageCount += list.size();
+        }
+
+        badge = new BadgeView(MainActivity.this, mMessage);
+        badge.setText(String.valueOf(offLineMessageCount));
+        badge.show();
+    }
+
 }

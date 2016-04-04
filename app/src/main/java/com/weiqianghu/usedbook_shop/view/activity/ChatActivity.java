@@ -417,6 +417,5 @@ public class ChatActivity extends AppCompatActivity implements FaceFragment.OnEm
                 addMessage2Chat(event);
             }
         }
-        mRecyclerView.smoothScrollToPosition(mData.size() - 1);
     }
 }
