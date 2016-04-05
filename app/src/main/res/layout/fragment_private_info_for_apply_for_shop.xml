@@ -61,7 +61,8 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:background="@drawable/btn_background"
-                android:text="@string/submit_pply" />
+                android:text="@string/submit_pply"
+                android:textColor="@color/white" />
         </LinearLayout>
 
         <ProgressBar

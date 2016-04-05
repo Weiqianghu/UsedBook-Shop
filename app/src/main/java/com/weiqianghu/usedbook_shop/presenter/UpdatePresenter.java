@@ -14,7 +14,7 @@ import cn.bmob.v3.listener.UpdateListener;
 /**
  * Created by weiqianghu on 2016/2/24.
  */
-public class UpdatePresenter<T extends BmobObject> extends CommonPresenter {
+public class UpdatePresenter<T extends BmobObject> extends CommonPresenter{
     private IUpdateModel mUpdateModel;
     private IUpdateView mUpdateView;
     private Handler handler;

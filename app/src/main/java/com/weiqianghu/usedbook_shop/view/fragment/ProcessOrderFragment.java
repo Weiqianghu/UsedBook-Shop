@@ -4,13 +4,9 @@ package com.weiqianghu.usedbook_shop.view.fragment;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Message;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,7 +24,6 @@ import com.weiqianghu.usedbook_shop.presenter.QueryUserPresenter;
 import com.weiqianghu.usedbook_shop.presenter.UpdatePresenter;
 import com.weiqianghu.usedbook_shop.util.CallBackHandler;
 import com.weiqianghu.usedbook_shop.util.Constant;
-import com.weiqianghu.usedbook_shop.util.FragmentUtil;
 import com.weiqianghu.usedbook_shop.util.OrderStateUtil;
 import com.weiqianghu.usedbook_shop.view.common.BaseFragment;
 import com.weiqianghu.usedbook_shop.view.view.IUpdateView;
@@ -135,7 +130,7 @@ public class ProcessOrderFragment extends BaseFragment implements IUpdateView {
         mQueryUserPresenter = new QueryUserPresenter(queryUserHandler);
         mQueryAddressPresenter = new QueryAddressPresenter(queryAddressHandler);
 
-        mQueryUserPresenter.QueryUser(getActivity(), mOrderBean.getUser().getObjectId());
+        mQueryUserPresenter.queryUser(getActivity(), mOrderBean.getUser().getObjectId());
         mQueryAddressPresenter.QueryAddress(getActivity(), mOrderBean.getAddress().getObjectId());
         mUpdatePresenter = new UpdatePresenter<OrderBean>(this, updateOrderHandler);
 

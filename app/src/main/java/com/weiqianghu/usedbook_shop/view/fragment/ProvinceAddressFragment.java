@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.weiqianghu.usedbook_shop.R;
+import com.weiqianghu.usedbook_shop.model.entity.CityModel;
 import com.weiqianghu.usedbook_shop.model.entity.ProvinceModel;
 import com.weiqianghu.usedbook_shop.presenter.adapter.CommonAdapter;
 import com.weiqianghu.usedbook_shop.util.Constant;
@@ -30,8 +31,8 @@ import java.util.List;
 
 public class ProvinceAddressFragment extends BaseFragment {
 
-    public static final String TAG=ProvinceAddressFragment.class.getSimpleName();
-    private List<ProvinceModel> provinceModelList=null;
+    public static final String TAG = ProvinceAddressFragment.class.getSimpleName();
+    private List<ProvinceModel> provinceModelList = null;
 
     private ListView mProvinceLv;
     private CommonAdapter<ProvinceModel> mAdapter;
@@ -40,6 +41,7 @@ public class ProvinceAddressFragment extends BaseFragment {
     private Fragment mCityAddressFragment;
 
     private ProgressBar mLoading;
+    private int layoutId;
 
     @Override
     protected int getLayoutId() {
@@ -49,6 +51,7 @@ public class ProvinceAddressFragment extends BaseFragment {
     @Override
     protected void afterCreate(Bundle savedInstanceState) {
         initView(savedInstanceState);
+        initdata();
     }
 
     @Override
@@ -56,7 +59,7 @@ public class ProvinceAddressFragment extends BaseFragment {
 
         new GetDataAsyncTask().executeOnExecutor(ThreadPool.getThreadPool());
 
-        mProvinceLv= (ListView) mRootView.findViewById(R.id.lv_province);
+        mProvinceLv = (ListView) mRootView.findViewById(R.id.lv_province);
         mProvinceLv.setOnItemClickListener(itemClick);
 
         mLoading = (ProgressBar) mRootView.findViewById(R.id.pb_loading);
@@ -64,7 +67,7 @@ public class ProvinceAddressFragment extends BaseFragment {
     }
 
 
-    class GetDataAsyncTask extends AsyncTask<Void,Void,List<ProvinceModel>>{
+    class GetDataAsyncTask extends AsyncTask<Void, Void, List<ProvinceModel>> {
 
 
         @Override
@@ -75,18 +78,18 @@ public class ProvinceAddressFragment extends BaseFragment {
         @Override
         protected void onPostExecute(List<ProvinceModel> provinceModels) {
             mLoading.setVisibility(View.GONE);
-            provinceModelList=provinceModels;
+            provinceModelList = provinceModels;
             super.onPostExecute(provinceModels);
-            mProvinceLv.setAdapter(mAdapter=new CommonAdapter<ProvinceModel>(getActivity(),provinceModels,R.layout.item_address_name) {
+            mProvinceLv.setAdapter(mAdapter = new CommonAdapter<ProvinceModel>(getActivity(), provinceModels, R.layout.item_address_name) {
                 @Override
                 public void convert(ViewHolder helper, ProvinceModel item) {
-                    helper.setText(R.id.tv_name,item.getName());
+                    helper.setText(R.id.tv_name, item.getName());
                 }
             });
         }
     }
 
-    AdapterView.OnItemClickListener itemClick=new AdapterView.OnItemClickListener() {
+    AdapterView.OnItemClickListener itemClick = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             selectCity(position);
@@ -94,30 +97,37 @@ public class ProvinceAddressFragment extends BaseFragment {
     };
 
     private void selectCity(int position) {
-        if(mFragmentManager==null){
-            mFragmentManager=getActivity().getSupportFragmentManager();
+        if (mFragmentManager == null) {
+            mFragmentManager = getActivity().getSupportFragmentManager();
         }
-        mCityAddressFragment=mFragmentManager.findFragmentByTag(CityAddressFragment.TAG);
-        if(mCityAddressFragment==null){
-            mCityAddressFragment=new CityAddressFragment();
+        mCityAddressFragment = mFragmentManager.findFragmentByTag(CityAddressFragment.TAG);
+        if (mCityAddressFragment == null) {
+            mCityAddressFragment = new CityAddressFragment();
         }
 
-        Bundle bundle=new Bundle();
-        bundle.putSerializable(Constant.PROVINCE,provinceModelList.get(position));
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(Constant.PROVINCE, provinceModelList.get(position));
+        bundle.putInt(Constant.LAYOUT_ID, layoutId);
         mCityAddressFragment.setArguments(bundle);
 
-        Fragment from=mFragmentManager.findFragmentByTag(ProvinceAddressFragment.TAG);
-        FragmentUtil.switchContentAddToBackStack(from,mCityAddressFragment,R.id.apply_for_shop_container,mFragmentManager,CityAddressFragment.TAG);
+        Fragment from = mFragmentManager.findFragmentByTag(ProvinceAddressFragment.TAG);
+        FragmentUtil.switchContentAddToBackStack(from, mCityAddressFragment, layoutId, mFragmentManager, CityAddressFragment.TAG);
     }
 
-    private List<ProvinceModel> getProvincesByJSON(){
+    private List<ProvinceModel> getProvincesByJSON() {
         List<ProvinceModel> provinceModelList;
-        Gson g=new Gson();
-        Type lt=new TypeToken<List<ProvinceModel>>(){}.getType();
+        Gson g = new Gson();
+        Type lt = new TypeToken<List<ProvinceModel>>() {
+        }.getType();
 
-        String json= FileUtil.getStrFromRaw(getResources().openRawResource(R.raw.address));
-        provinceModelList=g.fromJson(json,lt);
+        String json = FileUtil.getStrFromRaw(getResources().openRawResource(R.raw.address));
+        provinceModelList = g.fromJson(json, lt);
         return provinceModelList;
+    }
+
+    void initdata() {
+        Bundle bundle = getArguments();
+        layoutId = bundle.getInt(Constant.LAYOUT_ID);
     }
 
 }

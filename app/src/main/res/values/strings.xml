@@ -87,4 +87,8 @@
     <string name="comment_empty">暂无评论</string>
     <string name="comment">查看评论</string>
     <string name="conversaction">会话列表</string>
+    <string name="suggest_to_login_text">您还没有登陆，请登录后再试</string>
+    <string name="edit_shop_info">编辑书店信息</string>
+    <string name="mobileno">登陆账号</string>
+    <string name="username">用户名</string>
 </resources>

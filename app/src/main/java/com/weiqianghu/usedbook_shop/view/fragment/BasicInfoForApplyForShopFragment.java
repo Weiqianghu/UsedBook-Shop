@@ -79,6 +79,9 @@ public class BasicInfoForApplyForShopFragment extends BaseFragment {
                     if (null == mAddressFragment) {
                         mAddressFragment = new ProvinceAddressFragment();
                     }
+                    Bundle bundle = new Bundle();
+                    bundle.putInt(Constant.LAYOUT_ID, R.id.apply_for_shop_container);
+                    mAddressFragment.setArguments(bundle);
                     Fragment from = mFragmentManager.findFragmentByTag(BasicInfoForApplyForShopFragment.TAG);
                     FragmentUtil.switchContentAddToBackStack(from, mAddressFragment,
                             R.id.apply_for_shop_container, mFragmentManager, ProvinceAddressFragment.TAG);
@@ -162,7 +165,7 @@ public class BasicInfoForApplyForShopFragment extends BaseFragment {
             }
             Fragment from = mFragmentManager.findFragmentByTag(BasicInfoForApplyForShopFragment.TAG);
 
-            if(mPrivateInfoFragment.getArguments()==null) {
+            if (mPrivateInfoFragment.getArguments() == null) {
                 Bundle bundle = new Bundle();
                 bundle.putSerializable(Constant.SHOP, mShop);
                 mPrivateInfoFragment.setArguments(bundle);

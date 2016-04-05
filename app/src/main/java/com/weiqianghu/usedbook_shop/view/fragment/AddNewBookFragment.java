@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -52,6 +53,8 @@ public class AddNewBookFragment extends BaseFragment implements ISaveView {
     private FragmentManager mFragmentManager;
     private Fragment mFragment;
 
+    private Toolbar mToolBar;
+
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_add_new_book;
@@ -64,6 +67,8 @@ public class AddNewBookFragment extends BaseFragment implements ISaveView {
 
     @Override
     protected void initView(Bundle savedInstanceState) {
+        mToolBar= (Toolbar) getActivity().findViewById(R.id.center_toolbar);
+        mToolBar.setTitle(R.string.add_new_book);
         mBookNameEt = (ClearEditText) mRootView.findViewById(R.id.et_book_name);
         mISBNEt = (ClearEditText) mRootView.findViewById(R.id.et_isbn);
         mPriceEt = (ClearEditText) mRootView.findViewById(R.id.et_price);
@@ -178,7 +183,6 @@ public class AddNewBookFragment extends BaseFragment implements ISaveView {
         if (stockStr != null && stockStr.length() > 0) {
             stock = Integer.valueOf(stockStr);
         }
-
         category = mCategoryEt.getText().toString().trim();
         percentDescribe = mPercentDescribeEt.getText().toString().trim();
     }

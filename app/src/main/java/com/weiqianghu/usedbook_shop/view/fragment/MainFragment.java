@@ -7,6 +7,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -34,14 +35,12 @@ public class MainFragment extends BaseFragment {
 
     private int count = 0;
 
-    private SerializableHandler mToolBarHandler;
+    private Toolbar mToolBar;
 
     public MainFragment() {
     }
 
-    public MainFragment(SerializableHandler handler) {
-        this.mToolBarHandler = handler;
-    }
+
 
     @Override
     protected int getLayoutId() {
@@ -51,18 +50,17 @@ public class MainFragment extends BaseFragment {
     @Override
     protected void afterCreate(Bundle savedInstanceState) {
 
-       /* if (savedInstanceState != null) {
-            mToolBarHandler = (SerializableHandler) savedInstanceState.getSerializable("mToolBarHandler");
-        }*/
         initView(savedInstanceState);
     }
 
     @Override
     protected void initView(Bundle savedInstanceState) {
+        mToolBar= (Toolbar) getActivity().findViewById(R.id.center_toolbar);
+
         mTabLayout = (TabLayout) mRootView.findViewById(R.id.tl_main);
         mViewPager = (ViewPager) mRootView.findViewById(R.id.vp_main);
 
-        Fragment mShopFragment = new ShopFragment(mToolBarHandler);
+        Fragment mShopFragment = new ShopFragment();
         Fragment mOrderFragment = new OrderDeliverFragment();
         Fragment mMineFragment = new MineFragment();
 
@@ -82,19 +80,17 @@ public class MainFragment extends BaseFragment {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 mViewPager.setCurrentItem(tab.getPosition());
-                Message message = new Message();
                 switch (tab.getPosition()) {
                     case 0:
-                        message.what = Constant.TAB_SHOP;
+                        mToolBar.setTitle(R.string.shop);
                         break;
                     case 1:
-                        message.what = Constant.TAB_ORDER;
+                        mToolBar.setTitle(R.string.order);
                         break;
                     case 2:
-                        message.what = Constant.TAB_MINE;
+                        mToolBar.setTitle(R.string.mine);
                         break;
                 }
-                mToolBarHandler.sendMessage(message);
             }
 
             @Override
@@ -145,10 +141,4 @@ public class MainFragment extends BaseFragment {
             getActivity().finish();
         }
     }
-
-   /* @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putSerializable("mToolBarHandler", mToolBarHandler);
-    }*/
 }

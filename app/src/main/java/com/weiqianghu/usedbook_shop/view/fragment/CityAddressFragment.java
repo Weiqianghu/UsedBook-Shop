@@ -24,7 +24,7 @@ import java.util.List;
 
 public class CityAddressFragment extends BaseFragment {
 
-    public static final String TAG=CityAddressFragment.class.getSimpleName();
+    public static final String TAG = CityAddressFragment.class.getSimpleName();
 
     private ProvinceModel province;
     private String provinceName;
@@ -35,6 +35,7 @@ public class CityAddressFragment extends BaseFragment {
 
     private FragmentManager mFragmentManager;
     private Fragment mCountyAddressFragment;
+    private int layoutId;
 
     @Override
     protected int getLayoutId() {
@@ -49,29 +50,30 @@ public class CityAddressFragment extends BaseFragment {
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-        mProvinceTv= (TextView) mRootView.findViewById(R.id.tv_province);
-        mCityLv= (ListView) mRootView.findViewById(R.id.lv_city);
+        mProvinceTv = (TextView) mRootView.findViewById(R.id.tv_province);
+        mCityLv = (ListView) mRootView.findViewById(R.id.lv_city);
         mCityLv.setOnItemClickListener(itemClick);
 
     }
 
-    void initdata(){
-        Bundle bundle=getArguments();
-        province= (ProvinceModel) bundle.getSerializable(Constant.PROVINCE);
-        provinceName=province.getName();
-        citys=province.getCity();
+    void initdata() {
+        Bundle bundle = getArguments();
+        province = (ProvinceModel) bundle.getSerializable(Constant.PROVINCE);
+        provinceName = province.getName();
+        citys = province.getCity();
+        layoutId = bundle.getInt(Constant.LAYOUT_ID);
 
         mProvinceTv.setText(provinceName);
-        mCityLv.setAdapter(new CommonAdapter<CityModel>(getActivity(),citys,R.layout.item_address_name) {
+        mCityLv.setAdapter(new CommonAdapter<CityModel>(getActivity(), citys, R.layout.item_address_name) {
             @Override
             public void convert(ViewHolder helper, CityModel item) {
-                helper.setText(R.id.tv_name,item.getName());
+                helper.setText(R.id.tv_name, item.getName());
             }
         });
     }
 
 
-    AdapterView.OnItemClickListener itemClick=new AdapterView.OnItemClickListener() {
+    AdapterView.OnItemClickListener itemClick = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             selectCounty(position);
@@ -79,21 +81,22 @@ public class CityAddressFragment extends BaseFragment {
     };
 
     private void selectCounty(int position) {
-        if(mFragmentManager==null){
-            mFragmentManager=getActivity().getSupportFragmentManager();
+        if (mFragmentManager == null) {
+            mFragmentManager = getActivity().getSupportFragmentManager();
         }
-        mCountyAddressFragment =mFragmentManager.findFragmentByTag(CountyAddressFragment.TAG);
-        if(mCountyAddressFragment ==null){
-            mCountyAddressFragment =new CountyAddressFragment();
+        mCountyAddressFragment = mFragmentManager.findFragmentByTag(CountyAddressFragment.TAG);
+        if (mCountyAddressFragment == null) {
+            mCountyAddressFragment = new CountyAddressFragment();
         }
 
-        Bundle bundle=new Bundle();
-        bundle.putSerializable(Constant.CITY,citys.get(position));
-        bundle.putString(Constant.PROVINCE,provinceName);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(Constant.CITY, citys.get(position));
+        bundle.putString(Constant.PROVINCE, provinceName);
+        bundle.putInt(Constant.LAYOUT_ID, layoutId);
         mCountyAddressFragment.setArguments(bundle);
 
-        Fragment from=mFragmentManager.findFragmentByTag(CityAddressFragment.TAG);
-        FragmentUtil.switchContentAddToBackStack(from, mCountyAddressFragment,R.id.apply_for_shop_container,mFragmentManager,CountyAddressFragment.TAG);
+        Fragment from = mFragmentManager.findFragmentByTag(CityAddressFragment.TAG);
+        FragmentUtil.switchContentAddToBackStack(from, mCountyAddressFragment, layoutId, mFragmentManager, CountyAddressFragment.TAG);
     }
 
 }

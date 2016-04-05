@@ -29,5 +29,6 @@
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:background="@drawable/btn_background"
-        android:text="@string/submit" />
+        android:text="@string/submit"
+        android:textColor="@color/white" />
 </LinearLayout>

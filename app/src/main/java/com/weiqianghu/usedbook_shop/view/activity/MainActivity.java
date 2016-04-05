@@ -1,14 +1,11 @@
 package com.weiqianghu.usedbook_shop.view.activity;
 
-import android.app.NotificationManager;
-import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
+import android.os.Bundle;
 import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
@@ -19,13 +16,10 @@ import com.readystatesoftware.viewbadger.BadgeView;
 import com.weiqianghu.usedbook_shop.R;
 import com.weiqianghu.usedbook_shop.model.entity.SerializableHandler;
 import com.weiqianghu.usedbook_shop.model.entity.UserBean;
-import com.weiqianghu.usedbook_shop.presenter.messagehandler.ChatMessageHandler;
 import com.weiqianghu.usedbook_shop.util.Constant;
 import com.weiqianghu.usedbook_shop.util.FragmentUtil;
-import com.weiqianghu.usedbook_shop.util.ServiceUtil;
 import com.weiqianghu.usedbook_shop.view.fragment.MainFragment;
 import com.weiqianghu.usedbook_shop.view.fragment.SeetingsFragment;
-import com.weiqianghu.usedbook_shop.view.service.OrderRealTimeService;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -78,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
         }
         mFragment = mFragmentManager.findFragmentByTag(MainFragment.TAG);
         if (mFragment == null) {
-            mFragment = new MainFragment(toolBarHandler);
+            mFragment = new MainFragment();
         }
         FragmentUtil.addContentNoAnimation(R.id.main_container, mFragment, mFragmentManager, MainFragment.TAG);
 
@@ -119,8 +113,15 @@ public class MainActivity extends AppCompatActivity {
     };
 
     private void gotoMessageList() {
-        Intent intent = new Intent(MainActivity.this, MessageListActivity.class);
+        if (null == BmobUser.getCurrentUser(this)) {
+            Toast.makeText(this, R.string.suggest_to_login_text, Toast.LENGTH_SHORT).show();
+            return;
+        }
+        Intent intent = new Intent(this, MessageListActivity.class);
         startActivity(intent);
+        if (badge != null && badge.isShown()) {
+            badge.hide();
+        }
     }
 
     private void gotoSettings() {
@@ -131,32 +132,17 @@ public class MainActivity extends AppCompatActivity {
         if (mFragment == null) {
             mFragment = new SeetingsFragment();
         }
-        Fragment from = mFragmentManager.findFragmentByTag(MainFragment.TAG);
-        FragmentUtil.switchContentAddToBackStack(from, mFragment, R.id.main_container, mFragmentManager, SeetingsFragment.TAG);
-    }
 
-
-    private SerializableHandler toolBarHandler = new SerializableHandler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-
-            switch (msg.what) {
-                case Constant.TAB_SHOP:
-                    mToolbar.setTitle(R.string.shop);
-                    break;
-                case Constant.TAB_ORDER:
-                    mToolbar.setTitle(R.string.order);
-                    break;
-                case Constant.TAB_MINE:
-                    mToolbar.setTitle(R.string.mine);
-                    break;
-                case Constant.ADD_NEW_BOOK:
-                    mToolbar.setTitle(R.string.add_new_book);
-                    break;
+        List<Fragment> fragments = mFragmentManager.getFragments();
+        Fragment from = new Fragment();
+        for (int i = fragments.size() - 1; i >= 0; i--) {
+            if (null != fragments.get(i) && fragments.get(i).isResumed()) {
+                from = fragments.get(i);
+                break;
             }
         }
-    };
+        FragmentUtil.switchContentAddToBackStack(from, mFragment, R.id.main_container, mFragmentManager, SeetingsFragment.TAG);
+    }
 
     @Override
     public void onStart() {
@@ -183,5 +169,6 @@ public class MainActivity extends AppCompatActivity {
         badge.setText(String.valueOf(offLineMessageCount));
         badge.show();
     }
-
 }
+
+

@@ -90,8 +90,13 @@ public class LoginFragment extends BaseFragment implements ILoginView {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case Constant.SUCCESS:
-
-                    mQueryAuditStatePresenter.queryAuditState(getActivity(), BmobUser.getCurrentUser(getActivity(), UserBean.class));
+                    if (BmobUser.getCurrentUser(getActivity(), UserBean.class).getShop() != null) {
+                        mQueryAuditStatePresenter.queryAuditState(getActivity(), BmobUser.getCurrentUser(getActivity(), UserBean.class));
+                    } else {
+                        Intent intent = new Intent(getActivity(), ApplyForShopActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(intent);
+                    }
                     mLoading.setVisibility(View.INVISIBLE);
                     mLoginBtn.setClickable(true);
                     Toast.makeText(getActivity(), "登陆成功", Toast.LENGTH_SHORT).show();

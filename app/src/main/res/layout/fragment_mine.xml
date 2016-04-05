@@ -1,13 +1,58 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".view.fragment.ShopFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/mine" />
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/iv_user_img"
+        android:layout_width="@dimen/xlarge_dp"
+        android:layout_height="@dimen/xlarge_dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        fresco:placeholderImage="@mipmap/default_user_img"
+        fresco:roundAsCircle="true" />
 
-</FrameLayout>
+    <TextView
+        android:id="@+id/tv_shop_name"
+        style="@style/common_text_style"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="10dp"
+        tools:text="传奇书屋" />
+
+    <RelativeLayout
+        android:id="@+id/edit_shop_info"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/large_dp"
+        android:background="@drawable/box_bg"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <ImageView
+            android:id="@+id/iv_user_info"
+            android:layout_width="@dimen/small_dp"
+            android:layout_height="@dimen/small_dp"
+            android:layout_marginRight="10dp"
+            android:src="@mipmap/default_user_img" />
+
+        <TextView
+            style="@style/common_text_style"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/small_dp"
+            android:layout_toRightOf="@id/iv_user_info"
+            android:gravity="center_vertical"
+            android:text="@string/edit_shop_info" />
+
+        <ImageView
+            android:layout_width="@dimen/small_dp"
+            android:layout_height="@dimen/small_dp"
+            android:layout_alignParentRight="true"
+            android:src="@mipmap/enter" />
+    </RelativeLayout>
+
+</LinearLayout>

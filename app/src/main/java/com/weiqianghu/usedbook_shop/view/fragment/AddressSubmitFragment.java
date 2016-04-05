@@ -33,6 +33,7 @@ public class AddressSubmitFragment extends BaseFragment {
 
     private FragmentManager mFragmentManager;
     private Fragment mFragment;
+    private int layoutId;
 
     @Override
     protected int getLayoutId() {
@@ -67,9 +68,20 @@ public class AddressSubmitFragment extends BaseFragment {
                         if (mFragmentManager == null) {
                             mFragmentManager = getActivity().getSupportFragmentManager();
                         }
-                        mFragment = mFragmentManager.findFragmentByTag(BasicInfoForApplyForShopFragment.TAG);
+                        if (layoutId == R.id.main_container) {
+                            mFragment = mFragmentManager.findFragmentByTag(EditShopInfoFragment.TAG);
+                            if (mFragment == null) {
+                                mFragment = new EditShopInfoFragment();
+                            }
+                        } else if (layoutId == R.id.apply_for_shop_container) {
+                            mFragment = mFragmentManager.findFragmentByTag(BasicInfoForApplyForShopFragment.TAG);
+                            if (mFragment == null) {
+                                mFragment = new BasicInfoForApplyForShopFragment();
+                            }
+                        }
+
                         if (mFragment == null) {
-                            mFragment = new BasicInfoForApplyForShopFragment();
+                            return;
                         }
 
                         mFragment.getArguments().putString(Constant.PROVINCE, provinceName);
@@ -93,7 +105,7 @@ public class AddressSubmitFragment extends BaseFragment {
         provinceName = bundle.getString(Constant.PROVINCE);
         cityName = bundle.getString(Constant.CITY);
         countyName = bundle.getString(Constant.COUNTY);
-
+        layoutId = bundle.getInt(Constant.LAYOUT_ID);
         mRegionTv.setText(provinceName + cityName + countyName);
     }
 

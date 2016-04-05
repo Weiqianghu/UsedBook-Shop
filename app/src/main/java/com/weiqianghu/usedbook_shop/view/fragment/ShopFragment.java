@@ -36,13 +36,7 @@ import java.util.List;
 public class ShopFragment extends BaseFragment implements IRecycleViewItemClickListener {
     public static final String TAG = ShopFragment.class.getSimpleName();
 
-    private SerializableHandler mHandler;
-
     public ShopFragment() {
-    }
-
-    public ShopFragment(SerializableHandler handler) {
-        this.mHandler = handler;
     }
 
     private Button mAddNewBookBtn;
@@ -237,10 +231,6 @@ public class ShopFragment extends BaseFragment implements IRecycleViewItemClickL
         }
         Fragment form = mFragmentManager.findFragmentByTag(MainFragment.TAG);
         FragmentUtil.switchContentAddToBackStack(form, mFragment, R.id.main_container, mFragmentManager, AddNewBookFragment.TAG);
-
-        Message message = new Message();
-        message.what = Constant.ADD_NEW_BOOK;
-        mHandler.sendMessage(message);
     }
 
     private void loadMore() {

@@ -10,14 +10,16 @@
         style="@style/common_edit_text_style"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/shop_name" />
+        android:hint="@string/shop_name"
+        android:maxLength="30" />
 
     <com.weiqianghu.usedbook_shop.view.customview.ClearEditText
         android:id="@+id/et_contacts"
         style="@style/common_edit_text_style"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/contacts" />
+        android:hint="@string/contacts"
+        android:maxLength="30" />
 
     <com.weiqianghu.usedbook_shop.view.customview.ClearEditText
         android:id="@+id/et_contact_number"
@@ -39,20 +41,21 @@
             android:text="@string/address" />
 
         <ImageView
-            android:src="@mipmap/right"
-            android:layout_alignParentRight="true"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:src="@mipmap/right" />
     </RelativeLayout>
 
     <Button
         android:id="@+id/btn_next"
-        android:text="@string/next"
         style="@style/common_text_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:background="@drawable/btn_background"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:text="@string/next"
+        android:textColor="@color/white" />
 
 
 </LinearLayout>

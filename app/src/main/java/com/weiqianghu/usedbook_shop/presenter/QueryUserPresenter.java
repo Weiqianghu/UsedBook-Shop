@@ -29,7 +29,7 @@ public class QueryUserPresenter extends CommonPresenter {
         mQueryModel = new QueryModel<UserBean>();
     }
 
-    public void QueryUser(Context context, String objectId) {
+    public void queryUser(Context context, String objectId) {
         GetListener<UserBean> getListener = new GetListener<UserBean>() {
 
             @Override
@@ -46,6 +46,7 @@ public class QueryUserPresenter extends CommonPresenter {
         };
 
         BmobQuery<UserBean> query = new BmobQuery<>();
+        query.include("shop");
         mQueryModel.query(context, query, getListener, objectId);
     }
 
