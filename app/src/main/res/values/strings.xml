@@ -91,4 +91,8 @@
     <string name="edit_shop_info">编辑书店信息</string>
     <string name="mobileno">登陆账号</string>
     <string name="username">用户名</string>
+    <string name="statistics">信息统计</string>
+    <string name="prefer_count">收藏量</string>
+    <string name="price_statistics">价格汇总</string>
+    <string name="message">消息</string>
 </resources>

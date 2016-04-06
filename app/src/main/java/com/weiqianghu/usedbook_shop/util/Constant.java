@@ -76,4 +76,5 @@ public class Constant {
     public static final String MESSAGE_RECEIVE = "message_receive";
     public static final String MESSAGE_SEND = "message_send";
     public static final String LAYOUT_ID = "layout_id";
+    public static final String COUNT = "count";
 }

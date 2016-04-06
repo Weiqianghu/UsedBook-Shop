@@ -14,4 +14,5 @@
 
     <color name="gray_bg">#DFDFDF</color>
     <color name="blank">#000000</color>
+    <color name="cool_blank">#383F49</color>
 </resources>

@@ -7,6 +7,7 @@ import com.weiqianghu.usedbook_shop.model.inf.IQueryModel;
 
 import cn.bmob.v3.BmobObject;
 import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.listener.CountListener;
 import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.GetListener;
 
@@ -24,6 +25,11 @@ public class QueryModel<T extends BmobObject> implements IQueryModel {
     public boolean query(Context context, BmobQuery query, GetListener getListener, String objectId) {
         query.getObject(context, objectId, getListener);
         return true;
+    }
+
+    @Override
+    public void queryCount(Context context, BmobQuery query, Class object, CountListener countListener) {
+        query.count(context, object, countListener);
     }
 
 }

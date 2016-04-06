@@ -24,6 +24,7 @@ import com.weiqianghu.usedbook_shop.util.FileUtil;
 import com.weiqianghu.usedbook_shop.util.FragmentUtil;
 import com.weiqianghu.usedbook_shop.util.ImgUtil;
 import com.weiqianghu.usedbook_shop.util.SelectImgUtil;
+import com.weiqianghu.usedbook_shop.view.activity.MessageListActivity;
 import com.weiqianghu.usedbook_shop.view.common.BaseFragment;
 import com.weiqianghu.usedbook_shop.view.view.IEditUserView;
 import com.weiqianghu.usedbook_shop.view.view.IUploadFileByPathView;
@@ -45,6 +46,10 @@ public class MineFragment extends BaseFragment implements IUploadFileByPathView,
     private TextView mShopNameTv;
 
     private View mEditShopInfo;
+    private View mStatistics;
+    private View mSettings;
+    private View mMessage;
+    private View mAbout;
 
     private FragmentManager mFragmentManager;
 
@@ -91,6 +96,15 @@ public class MineFragment extends BaseFragment implements IUploadFileByPathView,
         mUploadFileByPathPresenter = new UploadFileByPathPresenter(this, uploadFileHandler);
         mEditUserPresenter = new EditUserPresenter(this, editUserHanler);
 
+        mStatistics = mRootView.findViewById(R.id.statistics);
+        mStatistics.setOnClickListener(click);
+
+        mSettings = mRootView.findViewById(R.id.settings);
+        mSettings.setOnClickListener(click);
+        mMessage = mRootView.findViewById(R.id.message);
+        mMessage.setOnClickListener(click);
+        mAbout = mRootView.findViewById(R.id.about);
+        mAbout.setOnClickListener(click);
     }
 
     CallBackHandler queryUserHandler = new CallBackHandler() {
@@ -123,8 +137,37 @@ public class MineFragment extends BaseFragment implements IUploadFileByPathView,
                 case R.id.iv_user_img:
                     SelectImgUtil.selectImg(MineFragment.this, MultiImageSelectorActivity.MODE_SINGLE, 1);
                     break;
+                case R.id.settings:
+                    gotoSettings();
+                    break;
+                case R.id.statistics:
+                    gotoStatistics();
+                    break;
+                case R.id.message:
+                    gotoMessageList();
+                    break;
+                case R.id.about:
+                    gotoAbout();
+                    break;
             }
         }
+    }
+
+    private void gotoAbout() {
+        if (mFragmentManager == null) {
+            mFragmentManager = getActivity().getSupportFragmentManager();
+        }
+        Fragment to = mFragmentManager.findFragmentByTag(AboutFragment.TAG);
+        if (to == null) {
+            to = new AboutFragment();
+        }
+        Fragment from = mFragmentManager.findFragmentByTag(MainFragment.TAG);
+        FragmentUtil.switchContentAddToBackStack(from, to, R.id.main_container, mFragmentManager, AboutFragment.TAG);
+    }
+
+    private void gotoMessageList() {
+        Intent intent = new Intent(mContext, MessageListActivity.class);
+        startActivity(intent);
     }
 
     private void gotoEditShopInfo() {
@@ -201,5 +244,31 @@ public class MineFragment extends BaseFragment implements IUploadFileByPathView,
             Toast.makeText(mContext, msg, Toast.LENGTH_SHORT).show();
         }
     };
+
+    private void gotoSettings() {
+        if (mFragmentManager == null) {
+            mFragmentManager = getActivity().getSupportFragmentManager();
+        }
+        Fragment mFragment = mFragmentManager.findFragmentByTag(SeetingsFragment.TAG);
+        if (mFragment == null) {
+            mFragment = new SeetingsFragment();
+        }
+
+        Fragment from = mFragmentManager.findFragmentByTag(MainFragment.TAG);
+        FragmentUtil.switchContentAddToBackStack(from, mFragment, R.id.main_container, mFragmentManager, SeetingsFragment.TAG);
+    }
+
+    private void gotoStatistics() {
+        if (mFragmentManager == null) {
+            mFragmentManager = getActivity().getSupportFragmentManager();
+        }
+        Fragment mFragment = mFragmentManager.findFragmentByTag(StatisticsFragment.TAG);
+        if (mFragment == null) {
+            mFragment = new StatisticsFragment();
+        }
+
+        Fragment from = mFragmentManager.findFragmentByTag(MainFragment.TAG);
+        FragmentUtil.switchContentAddToBackStack(from, mFragment, R.id.main_container, mFragmentManager, StatisticsFragment.TAG);
+    }
 
 }

@@ -82,4 +82,59 @@ public class QueryBooksPresenter extends CommonPresenter {
         query.include("shop");
         mQueryModel.query(context, query, getListener, bookObjectId);
     }
+
+    public void queryBooks(Context context, int limit) {
+        FindListener<BookBean> findListener = new FindListener<BookBean>() {
+            @Override
+            public void onSuccess(List list) {
+                Bundle bundle = new Bundle();
+                bundle.putParcelableArrayList(Constant.LIST, (ArrayList<? extends Parcelable>) list);
+                handleSuccess(bundle);
+            }
+
+            @Override
+            public void onError(int i, String s) {
+                handleFailureMessage(i, s);
+            }
+        };
+
+        UserBean currentUser = BmobUser.getCurrentUser(context, UserBean.class);
+        ShopBean shop = null;
+        if (currentUser != null) {
+            shop = currentUser.getShop();
+        }
+
+        BmobQuery<BookBean> query = new BmobQuery<>();
+        query.addWhereEqualTo("shop", shop);
+        query.setLimit(limit);
+        query.order("-salesVolume");
+        mQueryModel.query(context, query, findListener);
+    }
+
+    public void queryBooks(Context context) {
+        FindListener<BookBean> findListener = new FindListener<BookBean>() {
+            @Override
+            public void onSuccess(List list) {
+                Bundle bundle = new Bundle();
+                bundle.putParcelableArrayList(Constant.LIST, (ArrayList<? extends Parcelable>) list);
+                handleSuccess(bundle);
+            }
+
+            @Override
+            public void onError(int i, String s) {
+                handleFailureMessage(i, s);
+            }
+        };
+
+        UserBean currentUser = BmobUser.getCurrentUser(context, UserBean.class);
+        ShopBean shop = null;
+        if (currentUser != null) {
+            shop = currentUser.getShop();
+        }
+
+        BmobQuery<BookBean> query = new BmobQuery<>();
+        query.addWhereEqualTo("shop", shop);
+        query.order("-price");
+        mQueryModel.query(context, query, findListener);
+    }
 }

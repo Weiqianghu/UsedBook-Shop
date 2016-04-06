@@ -18,6 +18,7 @@ import com.weiqianghu.usedbook_shop.model.entity.SerializableHandler;
 import com.weiqianghu.usedbook_shop.model.entity.UserBean;
 import com.weiqianghu.usedbook_shop.util.Constant;
 import com.weiqianghu.usedbook_shop.util.FragmentUtil;
+import com.weiqianghu.usedbook_shop.view.fragment.AboutFragment;
 import com.weiqianghu.usedbook_shop.view.fragment.MainFragment;
 import com.weiqianghu.usedbook_shop.view.fragment.SeetingsFragment;
 
@@ -101,7 +102,8 @@ public class MainActivity extends AppCompatActivity {
                     gotoSettings();
                     break;
                 case R.id.action_about:
-                    msg += "action_about";
+                    gotoAbout();
+
                     break;
             }
 
@@ -142,6 +144,26 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         FragmentUtil.switchContentAddToBackStack(from, mFragment, R.id.main_container, mFragmentManager, SeetingsFragment.TAG);
+    }
+
+    private void gotoAbout() {
+        if (mFragmentManager == null) {
+            mFragmentManager = getSupportFragmentManager();
+        }
+        mFragment = mFragmentManager.findFragmentByTag(AboutFragment.TAG);
+        if (mFragment == null) {
+            mFragment = new AboutFragment();
+        }
+
+        List<Fragment> fragments = mFragmentManager.getFragments();
+        Fragment from = new Fragment();
+        for (int i = fragments.size() - 1; i >= 0; i--) {
+            if (null != fragments.get(i) && fragments.get(i).isResumed()) {
+                from = fragments.get(i);
+                break;
+            }
+        }
+        FragmentUtil.switchContentAddToBackStack(from, mFragment, R.id.main_container, mFragmentManager, AboutFragment.TAG);
     }
 
     @Override
