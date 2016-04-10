@@ -19,7 +19,6 @@ import com.facebook.drawee.backends.pipeline.Fresco;
 import com.weiqianghu.usedbook_shop.R;
 import com.weiqianghu.usedbook_shop.model.entity.BookBean;
 import com.weiqianghu.usedbook_shop.model.entity.BookModel;
-import com.weiqianghu.usedbook_shop.model.entity.SerializableHandler;
 import com.weiqianghu.usedbook_shop.presenter.QueryBookImgsPresenter;
 import com.weiqianghu.usedbook_shop.presenter.QueryBooksPresenter;
 import com.weiqianghu.usedbook_shop.presenter.adapter.BookAdapter;
@@ -188,8 +187,8 @@ public class ShopFragment extends BaseFragment implements IRecycleViewItemClickL
     };
 
     @Override
-    public void onItemClick(View view, int postion) {
-        gotoBookDetail(postion);
+    public void onItemClick(View view, int position) {
+        gotoBookDetail(position);
     }
 
     private void gotoBookDetail(int position) {

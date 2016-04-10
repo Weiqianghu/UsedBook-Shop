@@ -31,7 +31,7 @@ import com.weiqianghu.usedbook_shop.view.view.IUploadFileByPathView;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.datatype.BmobFile;
 
-public class PrivateInfoForApplyForShopFragment extends BaseFragment implements IUploadFileByPathView,ISaveView,IUpdateView{
+public class PrivateInfoForApplyForShopFragment extends BaseFragment implements IUploadFileByPathView, ISaveView, IUpdateView {
 
     public static String Tag = PrivateInfoForApplyForShopFragment.class.getSimpleName();
 
@@ -85,8 +85,8 @@ public class PrivateInfoForApplyForShopFragment extends BaseFragment implements 
 
         mLoading = (ProgressBar) mRootView.findViewById(R.id.pb_loading);
         mUploadFileByPathPresenter = new UploadFileByPathPresenter(this, uploadIdFrontImgHandler);
-        mSavePresenter=new SavePresenter(this,saveHandler);
-        mUpdatePresenter=new UpdatePresenter<>(this,updateHandler);
+        mSavePresenter = new SavePresenter(this, saveHandler);
+        mUpdatePresenter = new UpdatePresenter<>(this, updateHandler);
     }
 
     CallBackHandler uploadIdFrontImgHandler = new CallBackHandler() {
@@ -98,7 +98,7 @@ public class PrivateInfoForApplyForShopFragment extends BaseFragment implements 
                     String fileUrl = file.getUrl();
                     mShop.setIdFrontImg(fileUrl);
                     mUploadFileByPathPresenter = new UploadFileByPathPresenter(PrivateInfoForApplyForShopFragment.this, uploadIdBackImgHandler);
-                    mUploadFileByPathPresenter.uploadFileByPath(getActivity(),idBackImg);
+                    mUploadFileByPathPresenter.uploadFileByPath(getActivity(), idBackImg);
                     break;
             }
         }
@@ -118,7 +118,7 @@ public class PrivateInfoForApplyForShopFragment extends BaseFragment implements 
                     BmobFile file = (BmobFile) bundle.getSerializable(Constant.FILE);
                     String fileUrl = file.getUrl();
                     mShop.setIdBackImg(fileUrl);
-                    mSavePresenter.save(getActivity(),mShop);
+                    mSavePresenter.save(getActivity(), mShop);
                     break;
             }
         }
@@ -134,11 +134,12 @@ public class PrivateInfoForApplyForShopFragment extends BaseFragment implements 
         public void handleSuccessMessage(Message msg) {
             switch (msg.what) {
                 case Constant.SUCCESS:
-                    UserBean userBean=new UserBean();
-                    UserBean user= BmobUser.getCurrentUser(getActivity(),UserBean.class);
+                    UserBean userBean = new UserBean();
+                    UserBean user = BmobUser.getCurrentUser(getActivity(), UserBean.class);
                     userBean.setShop(mShop);
                     userBean.setShop(true);
-                    mUpdatePresenter.update(getActivity(),userBean,user.getObjectId());
+                    user.setRole(Constant.ROLE_SHOP);
+                    mUpdatePresenter.update(getActivity(), userBean, user.getObjectId());
                     break;
             }
         }
@@ -154,9 +155,9 @@ public class PrivateInfoForApplyForShopFragment extends BaseFragment implements 
         public void handleSuccessMessage(Message msg) {
             switch (msg.what) {
                 case Constant.SUCCESS:
-                    Intent intent=new Intent(getActivity(), AuditActivity.class);
+                    Intent intent = new Intent(getActivity(), AuditActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    intent.putExtra(Constant.AUDIT_STATE,Constant.AUDIT_STATE0);
+                    intent.putExtra(Constant.AUDIT_STATE, Constant.AUDIT_STATE0);
                     startActivity(intent);
                     getActivity().finish();
                     break;
@@ -179,7 +180,7 @@ public class PrivateInfoForApplyForShopFragment extends BaseFragment implements 
                     if (beforeSubmit()) {
                         mLoading.setVisibility(View.VISIBLE);
                         mSubmitBtn.setClickable(false);
-                        mUploadFileByPathPresenter.uploadFileByPath(getActivity(),idFrontImg);
+                        mUploadFileByPathPresenter.uploadFileByPath(getActivity(), idFrontImg);
                     }
                     break;
                 case R.id.iv_id_front:

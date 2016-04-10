@@ -77,4 +77,8 @@ public class Constant {
     public static final String MESSAGE_SEND = "message_send";
     public static final String LAYOUT_ID = "layout_id";
     public static final String COUNT = "count";
+
+    public static final String ROLE_USER="role_user";
+    public static final String ROLE_SHOP="role_shop";
+    public static final String ROLE_ADMIN="role_admin";
 }

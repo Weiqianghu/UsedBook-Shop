@@ -5,6 +5,7 @@ import android.content.Context;
 
 import com.weiqianghu.usedbook_shop.model.entity.UserBean;
 import com.weiqianghu.usedbook_shop.model.inf.IRegisterModel;
+import com.weiqianghu.usedbook_shop.util.Constant;
 
 import cn.bmob.v3.listener.SaveListener;
 
@@ -25,6 +26,7 @@ public class RegisterModel implements IRegisterModel {
         user.setLatitude(0.0);
         user.setLongitude(0.0);
         user.setShop(false);
+        user.setRole(Constant.ROLE_USER);
         user.signUp(context,saveListener);
 
         user.signUp(context,saveListener);

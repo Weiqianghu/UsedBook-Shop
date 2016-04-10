@@ -148,7 +148,8 @@ public class RegisterFragment extends BaseFragment implements IRegisterView,ISen
             switch (v.getId()) {
                 case R.id.btn_submit:
                     if (beforeRegister()) {
-                        mVerifySmsCodePresenter.verifySmsCode(getActivity(),mobileNo,smsCode);
+                       // mVerifySmsCodePresenter.verifySmsCode(getActivity(),mobileNo,smsCode);
+                        mRegisterPresenter.register(getActivity(), mobileNo, smsCode, password);
                     }
                     break;
                 case R.id.btn_send_sms_code:
