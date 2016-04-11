@@ -103,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case R.id.action_about:
                     gotoAbout();
-
+                    mToolbar.setTitle(R.string.about);
                     break;
             }
 
@@ -143,6 +143,9 @@ public class MainActivity extends AppCompatActivity {
                 break;
             }
         }
+        if (from == mFragment) {
+            return;
+        }
         FragmentUtil.switchContentAddToBackStack(from, mFragment, R.id.main_container, mFragmentManager, SeetingsFragment.TAG);
     }
 
@@ -162,6 +165,9 @@ public class MainActivity extends AppCompatActivity {
                 from = fragments.get(i);
                 break;
             }
+        }
+        if (from == mFragment) {
+            return;
         }
         FragmentUtil.switchContentAddToBackStack(from, mFragment, R.id.main_container, mFragmentManager, AboutFragment.TAG);
     }
